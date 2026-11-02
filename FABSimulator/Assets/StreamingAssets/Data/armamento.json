@@ -1,0 +1,68 @@
+{
+  "versao": 1,
+  "observacao": "Dados de jogo. 'estimado': true = valor aproximado ou nominal de classe, nao verificado em fonte oficial nesta sessao. Layout de pontos de fixacao e limites por ponto sao simplificacoes de jogo.",
+  "armas": [
+    { "id": "iris-t", "nome": "IRIS-T", "categoria": "ar-ar curto alcance", "peso_kg": 87.4, "estimado": false, "fonte": "Wikipedia (IRIS-T)" },
+    { "id": "a-darter", "nome": "A-Darter", "categoria": "ar-ar curto alcance", "peso_kg": 89, "estimado": false, "fonte": "Wikipedia (A-Darter)" },
+    { "id": "maa-1b", "nome": "MAA-1B Piranha", "categoria": "ar-ar curto alcance", "peso_kg": 88, "estimado": true, "fonte": "Wikipedia (MAA-1 Piranha); peso da familia, variante B nao confirmada" },
+    { "id": "meteor", "nome": "Meteor", "categoria": "ar-ar alem do alcance visual", "peso_kg": 190, "estimado": false, "fonte": "MBDA via Wikipedia (Meteor)" },
+    { "id": "mk81", "nome": "Mk 81 (bomba de 250 lb)", "categoria": "bomba de emprego geral", "peso_kg": 113, "estimado": true, "fonte": "peso nominal da classe" },
+    { "id": "mk82", "nome": "Mk 82 (bomba de 500 lb)", "categoria": "bomba de emprego geral", "peso_kg": 227, "estimado": true, "fonte": "peso nominal da classe" },
+    { "id": "mk83", "nome": "Mk 83 (bomba de 1.000 lb)", "categoria": "bomba de emprego geral", "peso_kg": 447, "estimado": true, "fonte": "peso nominal da classe" },
+    { "id": "gbu-12", "nome": "Bomba guiada a laser classe 500 lb (tipo GBU-12)", "categoria": "bomba guiada", "peso_kg": 277, "estimado": true, "fonte": "peso aproximado da classe" },
+    { "id": "casulo-foguetes-70", "nome": "Casulo de foguetes 70 mm (7 tubos)", "categoria": "foguete nao guiado", "peso_kg": 85, "estimado": true, "fonte": "peso aproximado carregado" },
+    { "id": "casulo-sensor", "nome": "Casulo de designacao/imageamento (generico)", "categoria": "sensor", "peso_kg": 200, "estimado": true, "fonte": "item generico de jogo" },
+    { "id": "tanque-1100l", "nome": "Tanque externo 1.100 L", "categoria": "combustivel", "peso_kg": 1000, "estimado": true, "fonte": "volume x densidade do querosene (~0,8 kg/L) + estrutura estimada" },
+    { "id": "tanque-300l", "nome": "Tanque externo 300 L", "categoria": "combustivel", "peso_kg": 265, "estimado": true, "fonte": "volume x densidade do querosene (~0,8 kg/L) + estrutura estimada" }
+  ],
+  "aeronaves": [
+    {
+      "id": "F-39E",
+      "nome": "Saab/Embraer F-39E Gripen",
+      "peso_maximo_decolagem_kg": { "valor": 16500, "estimado": false, "fonte": "site da FAB (informado no briefing do projeto); confere com Wikipedia (JAS 39E)" },
+      "peso_vazio_kg": { "valor": 8000, "estimado": false, "fonte": "Wikipedia (JAS 39 Gripen, variante E)" },
+      "carga_externa_max_kg": { "valor": 5300, "estimado": true, "fonte": "valor publicado para a familia Gripen; especifico da versao E nao confirmado" },
+      "canhao_interno": { "modelo": "Mauser BK-27 27 mm", "municao": 120, "estimado": false, "fonte": "Wikipedia (JAS 39 Gripen)" },
+      "pontos_de_fixacao": [
+        { "id": "P1", "posicao": "ponta de asa esquerda", "limite_kg": 100, "estimado": true, "armas_permitidas": ["iris-t", "a-darter", "maa-1b"] },
+        { "id": "P2", "posicao": "ponta de asa direita", "limite_kg": 100, "estimado": true, "armas_permitidas": ["iris-t", "a-darter", "maa-1b"] },
+        { "id": "P3", "posicao": "asa externa esquerda", "limite_kg": 200, "estimado": true, "armas_permitidas": ["iris-t", "a-darter", "maa-1b", "meteor"] },
+        { "id": "P4", "posicao": "asa externa direita", "limite_kg": 200, "estimado": true, "armas_permitidas": ["iris-t", "a-darter", "maa-1b", "meteor"] },
+        { "id": "P5", "posicao": "asa interna esquerda", "limite_kg": 1100, "estimado": true, "armas_permitidas": ["mk82", "mk83", "gbu-12", "meteor", "tanque-1100l"] },
+        { "id": "P6", "posicao": "asa interna direita", "limite_kg": 1100, "estimado": true, "armas_permitidas": ["mk82", "mk83", "gbu-12", "meteor", "tanque-1100l"] },
+        { "id": "P7", "posicao": "fuselagem lateral esquerda", "limite_kg": 250, "estimado": true, "armas_permitidas": ["meteor", "iris-t", "a-darter", "maa-1b"] },
+        { "id": "P8", "posicao": "fuselagem lateral direita", "limite_kg": 250, "estimado": true, "armas_permitidas": ["meteor", "iris-t", "a-darter", "maa-1b"] },
+        { "id": "P9", "posicao": "fuselagem central", "limite_kg": 1100, "estimado": true, "armas_permitidas": ["tanque-1100l", "mk82", "mk83", "gbu-12"] },
+        { "id": "P10", "posicao": "fuselagem central - sensor", "limite_kg": 250, "estimado": true, "armas_permitidas": ["casulo-sensor"] }
+      ],
+      "numero_de_pontos": { "valor": 10, "estimado": true, "fonte": "Wikipedia: versao E tem dois pontos a mais que os 8 da versao C; distribuicao dos pontos e simplificada" }
+    },
+    {
+      "id": "A-29",
+      "nome": "Embraer A-29 Super Tucano",
+      "peso_maximo_decolagem_kg": { "valor": 5400, "estimado": false, "fonte": "site da FAB (informado no briefing do projeto); confere com Wikipedia" },
+      "peso_vazio_kg": { "valor": 3200, "estimado": false, "fonte": "Wikipedia (Embraer EMB 314 Super Tucano)" },
+      "carga_externa_max_kg": { "valor": 1550, "estimado": false, "fonte": "Wikipedia (Embraer EMB 314 Super Tucano)" },
+      "armas_internas": { "descricao": "2 metralhadoras de 12,7 mm nas asas", "municao_por_arma": 200, "estimado": true, "fonte": "configuracao publica conhecida; municao estimada" },
+      "pontos_de_fixacao": [
+        { "id": "P1", "posicao": "asa externa esquerda", "limite_kg": 150, "estimado": true, "armas_permitidas": ["maa-1b", "casulo-foguetes-70", "mk81"] },
+        { "id": "P2", "posicao": "asa interna esquerda", "limite_kg": 400, "estimado": true, "armas_permitidas": ["mk81", "mk82", "casulo-foguetes-70", "tanque-300l"] },
+        { "id": "P3", "posicao": "fuselagem central", "limite_kg": 350, "estimado": true, "armas_permitidas": ["mk82", "tanque-300l", "casulo-sensor"] },
+        { "id": "P4", "posicao": "asa interna direita", "limite_kg": 400, "estimado": true, "armas_permitidas": ["mk81", "mk82", "casulo-foguetes-70", "tanque-300l"] },
+        { "id": "P5", "posicao": "asa externa direita", "limite_kg": 150, "estimado": true, "armas_permitidas": ["maa-1b", "casulo-foguetes-70", "mk81"] }
+      ],
+      "numero_de_pontos": { "valor": 5, "estimado": false, "fonte": "Wikipedia (Embraer EMB 314 Super Tucano)" }
+    },
+    {
+      "id": "KC-390",
+      "nome": "Embraer KC-390 Millennium",
+      "armamento": null,
+      "pontos_de_fixacao": [],
+      "carga": {
+        "peso_maximo_decolagem_kg": { "valor": 86999, "estimado": true, "fonte": "valor divulgado pelo fabricante, nao verificado nesta sessao" },
+        "carga_util_max_kg": { "valor": 26000, "estimado": true, "fonte": "valor divulgado pelo fabricante, nao verificado nesta sessao" },
+        "tipos": ["paletes", "viaturas", "carga lancada pela rampa", "tropa", "ajuda humanitaria", "combate a incendio florestal"]
+      }
+    }
+  ]
+}

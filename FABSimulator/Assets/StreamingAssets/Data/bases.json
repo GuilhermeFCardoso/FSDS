@@ -1,0 +1,874 @@
+{
+ "versao": 1,
+ "geracao": "2026-11-02",
+ "observacao": "comprimento_m = publicado (OurAirports); comprimento_osm_m = calculado da geometria OSM. Cabeceiras e rumo verdadeiro derivados do OSM. Uso de simulacao, nao para navegacao real.",
+ "bases": [
+  {
+   "icao": "SBAN",
+   "nome": "Base Aérea de Anápolis",
+   "lat": -16.2292,
+   "lon": -48.964298,
+   "elevacao_m": 1137,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "06L/24R",
+     "cabeceira_a": {
+      "ident": "06L",
+      "lat": -16.240843,
+      "lon": -48.975331
+     },
+     "cabeceira_b": {
+      "ident": "24R",
+      "lat": -16.212837,
+      "lon": -48.951704
+     },
+     "comprimento_m": 3300,
+     "comprimento_osm_m": 4008,
+     "largura_m": 45,
+     "rumo_verdadeiro": 39.0,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 30787911)"
+     },
+     "geometria_divergente": true,
+     "estimado": false
+    },
+    {
+     "ident": "06R/24L",
+     "cabeceira_a": {
+      "ident": "06R",
+      "lat": -16.239498,
+      "lon": -48.971748
+     },
+     "cabeceira_b": {
+      "ident": "24L",
+      "lat": -16.223751,
+      "lon": -48.958468
+     },
+     "comprimento_m": 2233,
+     "comprimento_osm_m": 2253,
+     "largura_m": 22,
+     "rumo_verdadeiro": 39.0,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 288077976)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBBE",
+   "nome": "Aeroporto de Belém / Val de Cans (Base Aérea de Belém)",
+   "lat": -1.379279,
+   "lon": -48.476207,
+   "elevacao_m": 16,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "03/21",
+     "cabeceira_a": {
+      "ident": "03",
+      "lat": -1.3905,
+      "lon": -48.477162
+     },
+     "cabeceira_b": {
+      "ident": "21",
+      "lat": -1.374032,
+      "lon": -48.475739
+     },
+     "comprimento_m": 1830,
+     "comprimento_osm_m": 1838,
+     "largura_m": 45,
+     "rumo_verdadeiro": 4.9,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 19997695)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    },
+    {
+     "ident": "07/25",
+     "cabeceira_a": {
+      "ident": "07",
+      "lat": -1.388289,
+      "lon": -48.485292
+     },
+     "cabeceira_b": {
+      "ident": "25",
+      "lat": -1.370168,
+      "lon": -48.467015
+     },
+     "comprimento_m": 2800,
+     "comprimento_osm_m": 2861,
+     "largura_m": 45,
+     "rumo_verdadeiro": 45.2,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 19997693)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBBV",
+   "nome": "Aeroporto de Boa Vista",
+   "lat": 2.84615,
+   "lon": -60.690648,
+   "elevacao_m": 84,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "8/26",
+     "cabeceira_a": {
+      "ident": "8",
+      "lat": 2.840696,
+      "lon": -60.701084
+     },
+     "cabeceira_b": {
+      "ident": "26",
+      "lat": 2.852161,
+      "lon": -60.678754
+     },
+     "comprimento_m": 2700,
+     "comprimento_osm_m": 2788,
+     "largura_m": 45,
+     "rumo_verdadeiro": 62.8,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 34799124,785968251)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBBR",
+   "nome": "Aeroporto de Brasília",
+   "lat": -15.869167,
+   "lon": -47.920834,
+   "elevacao_m": 1066,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "11L/29R",
+     "cabeceira_a": {
+      "ident": "11L",
+      "lat": -15.86356,
+      "lon": -47.927537
+     },
+     "cabeceira_b": {
+      "ident": "29R",
+      "lat": -15.861638,
+      "lon": -47.897722
+     },
+     "comprimento_m": 3200,
+     "comprimento_osm_m": 3196,
+     "largura_m": 45,
+     "rumo_verdadeiro": 86.2,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 12302442,1065696938)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    },
+    {
+     "ident": "11R/29L",
+     "cabeceira_a": {
+      "ident": "11R",
+      "lat": -15.880673,
+      "lon": -47.939979
+     },
+     "cabeceira_b": {
+      "ident": "29L",
+      "lat": -15.878694,
+      "lon": -47.909267
+     },
+     "comprimento_m": 3300,
+     "comprimento_osm_m": 3292,
+     "largura_m": 45,
+     "rumo_verdadeiro": 86.2,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 48958839,1065696937)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBCG",
+   "nome": "Aeroporto de Campo Grande",
+   "lat": -20.469998,
+   "lon": -54.673988,
+   "elevacao_m": 559,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "06/24",
+     "cabeceira_a": {
+      "ident": "06",
+      "lat": -20.47862,
+      "lon": -54.682302
+     },
+     "cabeceira_b": {
+      "ident": "24",
+      "lat": -20.461271,
+      "lon": -54.665583
+     },
+     "comprimento_m": 2600,
+     "comprimento_osm_m": 2599,
+     "largura_m": 45,
+     "rumo_verdadeiro": 42.1,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 800983696)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBCO",
+   "nome": "Base Aérea de Canoas",
+   "lat": -29.945928,
+   "lon": -51.144413,
+   "elevacao_m": 8,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "13/31",
+     "cabeceira_a": {
+      "ident": "13",
+      "lat": -29.940768,
+      "lon": -51.161145
+     },
+     "cabeceira_b": {
+      "ident": "31",
+      "lat": -29.951119,
+      "lon": -51.127537
+     },
+     "comprimento_m": 2751,
+     "comprimento_osm_m": 3437,
+     "largura_m": 45,
+     "rumo_verdadeiro": 109.6,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 13487276)"
+     },
+     "geometria_divergente": true,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBMN",
+   "nome": "Base Aérea de Manaus (Ponta Pelada)",
+   "lat": -3.14604,
+   "lon": -59.986301,
+   "elevacao_m": 81,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "9/27",
+     "cabeceira_a": {
+      "ident": "9",
+      "lat": -3.148567,
+      "lon": -59.996536
+     },
+     "cabeceira_b": {
+      "ident": "27",
+      "lat": -3.143503,
+      "lon": -59.976362
+     },
+     "comprimento_m": 2170,
+     "comprimento_osm_m": 2310,
+     "largura_m": 45,
+     "rumo_verdadeiro": 75.9,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 23955290)"
+     },
+     "geometria_divergente": true,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBNT",
+   "nome": "Base Aérea de Natal",
+   "lat": -5.91142,
+   "lon": -35.2477,
+   "elevacao_m": 52,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "12/30",
+     "cabeceira_a": {
+      "ident": "12",
+      "lat": -5.909115,
+      "lon": -35.255755
+     },
+     "cabeceira_b": {
+      "ident": "30",
+      "lat": -5.911675,
+      "lon": -35.239537
+     },
+     "comprimento_m": 1825,
+     "comprimento_osm_m": 1816,
+     "largura_m": 45,
+     "rumo_verdadeiro": 99.0,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 19998381)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    },
+    {
+     "ident": "16L/34R",
+     "cabeceira_a": {
+      "ident": "16L",
+      "lat": -5.901837,
+      "lon": -35.251565
+     },
+     "cabeceira_b": {
+      "ident": "34R",
+      "lat": -5.920112,
+      "lon": -35.236745
+     },
+     "comprimento_m": 2600,
+     "comprimento_osm_m": 2611,
+     "largura_m": 45,
+     "rumo_verdadeiro": 141.1,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 19998382)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    },
+    {
+     "ident": "16R/34L",
+     "cabeceira_a": {
+      "ident": "16R",
+      "lat": -5.907496,
+      "lon": -35.256229
+     },
+     "cabeceira_b": {
+      "ident": "34L",
+      "lat": -5.920145,
+      "lon": -35.245997
+     },
+     "comprimento_m": 1800,
+     "comprimento_osm_m": 1805,
+     "largura_m": 45,
+     "rumo_verdadeiro": 141.2,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 183971015)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBPV",
+   "nome": "Aeroporto de Porto Velho",
+   "lat": -8.708491,
+   "lon": -63.902338,
+   "elevacao_m": 90,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "1/19",
+     "cabeceira_a": {
+      "ident": "1",
+      "lat": -8.720095,
+      "lon": -63.901651
+     },
+     "cabeceira_b": {
+      "ident": "19",
+      "lat": -8.697994,
+      "lon": -63.902981
+     },
+     "comprimento_m": 2400,
+     "comprimento_osm_m": 2462,
+     "largura_m": 45,
+     "rumo_verdadeiro": 356.6,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 55356808)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBSC",
+   "nome": "Base Aérea de Santa Cruz",
+   "lat": -22.9324,
+   "lon": -43.719101,
+   "elevacao_m": 3,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "5/23",
+     "cabeceira_a": {
+      "ident": "5",
+      "lat": -22.943823,
+      "lon": -43.724566
+     },
+     "cabeceira_b": {
+      "ident": "23",
+      "lat": -22.921235,
+      "lon": -43.713588
+     },
+     "comprimento_m": 2739,
+     "comprimento_osm_m": 2752,
+     "largura_m": 45,
+     "rumo_verdadeiro": 24.1,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 40089639)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBSM",
+   "nome": "Base Aérea de Santa Maria",
+   "lat": -29.711399,
+   "lon": -53.688202,
+   "elevacao_m": 87,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "02/20",
+     "cabeceira_a": {
+      "ident": "02",
+      "lat": -29.721751,
+      "lon": -53.688744
+     },
+     "cabeceira_b": {
+      "ident": "20",
+      "lat": -29.70555,
+      "lon": -53.687908
+     },
+     "comprimento_m": 1414,
+     "comprimento_osm_m": 1803,
+     "largura_m": 30,
+     "rumo_verdadeiro": 2.6,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 36912673)"
+     },
+     "geometria_divergente": true,
+     "estimado": false
+    },
+    {
+     "ident": "11/29",
+     "cabeceira_a": {
+      "ident": "11",
+      "lat": -29.710554,
+      "lon": -53.703806
+     },
+     "cabeceira_b": {
+      "ident": "29",
+      "lat": -29.712042,
+      "lon": -53.676052
+     },
+     "comprimento_m": 2694,
+     "comprimento_osm_m": 2685,
+     "largura_m": 45,
+     "rumo_verdadeiro": 93.5,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 110663413)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBGL",
+   "nome": "Aeroporto do Galeão (Rio de Janeiro)",
+   "lat": -22.809999,
+   "lon": -43.250557,
+   "elevacao_m": 9,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "10/28",
+     "cabeceira_a": {
+      "ident": "10",
+      "lat": -22.80184,
+      "lon": -43.255189
+     },
+     "cabeceira_b": {
+      "ident": "28",
+      "lat": -22.792176,
+      "lon": -43.217645
+     },
+     "comprimento_m": 4000,
+     "comprimento_osm_m": 3996,
+     "largura_m": 45,
+     "rumo_verdadeiro": 74.4,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 12291112)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    },
+    {
+     "ident": "15/33",
+     "cabeceira_a": {
+      "ident": "15",
+      "lat": -22.812421,
+      "lon": -43.263676
+     },
+     "cabeceira_b": {
+      "ident": "33",
+      "lat": -22.82914,
+      "lon": -43.23847
+     },
+     "comprimento_m": 3180,
+     "comprimento_osm_m": 3183,
+     "largura_m": 47,
+     "rumo_verdadeiro": 125.7,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 12291116,1356281630,1356281631)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBGR",
+   "nome": "Aeroporto de Guarulhos",
+   "lat": -23.431274,
+   "lon": -46.469954,
+   "elevacao_m": 750,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "10L/28R",
+     "cabeceira_a": {
+      "ident": "10L",
+      "lat": -23.434293,
+      "lon": -46.483365
+     },
+     "cabeceira_b": {
+      "ident": "28R",
+      "lat": -23.424895,
+      "lon": -46.448638
+     },
+     "comprimento_m": 3700,
+     "comprimento_osm_m": 3694,
+     "largura_m": 45,
+     "rumo_verdadeiro": 73.6,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 5367900,510285454,1388686363,1388686360,510285450)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    },
+    {
+     "ident": "10R/28L",
+     "cabeceira_a": {
+      "ident": "10R",
+      "lat": -23.438798,
+      "lon": -46.487027
+     },
+     "cabeceira_b": {
+      "ident": "28L",
+      "lat": -23.43117,
+      "lon": -46.45886
+     },
+     "comprimento_m": 3000,
+     "comprimento_osm_m": 2996,
+     "largura_m": 45,
+     "rumo_verdadeiro": 73.6,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 5367899,1388686342)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBKP",
+   "nome": "Aeroporto de Viracopos (Campinas)",
+   "lat": -23.007404,
+   "lon": -47.134502,
+   "elevacao_m": 661,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "15/33",
+     "cabeceira_a": {
+      "ident": "15",
+      "lat": -22.998503,
+      "lon": -47.14705
+     },
+     "cabeceira_b": {
+      "ident": "33",
+      "lat": -23.016402,
+      "lon": -47.122059
+     },
+     "comprimento_m": 3240,
+     "comprimento_osm_m": 3241,
+     "largura_m": 45,
+     "rumo_verdadeiro": 127.9,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 10492703,1240952238)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBEG",
+   "nome": "Aeroporto de Manaus / Eduardo Gomes",
+   "lat": -3.03861,
+   "lon": -60.049702,
+   "elevacao_m": 80,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "11/29",
+     "cabeceira_a": {
+      "ident": "11",
+      "lat": -3.038574,
+      "lon": -60.061829
+     },
+     "cabeceira_b": {
+      "ident": "29",
+      "lat": -3.038623,
+      "lon": -60.037596
+     },
+     "comprimento_m": 2700,
+     "comprimento_osm_m": 2691,
+     "largura_m": 45,
+     "rumo_verdadeiro": 90.1,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 281372114)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBRF",
+   "nome": "Aeroporto do Recife / Guararapes",
+   "lat": -8.12747,
+   "lon": -34.922961,
+   "elevacao_m": 10,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "18/36",
+     "cabeceira_a": {
+      "ident": "18",
+      "lat": -8.113906,
+      "lon": -34.927306
+     },
+     "cabeceira_b": {
+      "ident": "36",
+      "lat": -8.139094,
+      "lon": -34.918996
+     },
+     "comprimento_m": 3007,
+     "comprimento_osm_m": 2946,
+     "largura_m": 45,
+     "rumo_verdadeiro": 161.9,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 22732877)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBSV",
+   "nome": "Aeroporto de Salvador",
+   "lat": -12.908611,
+   "lon": -38.322498,
+   "elevacao_m": 20,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "10/28",
+     "cabeceira_a": {
+      "ident": "10",
+      "lat": -12.911294,
+      "lon": -38.336127
+     },
+     "cabeceira_b": {
+      "ident": "28",
+      "lat": -12.905829,
+      "lon": -38.308986
+     },
+     "comprimento_m": 3005,
+     "comprimento_osm_m": 3004,
+     "largura_m": 45,
+     "rumo_verdadeiro": 78.3,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 12331758,1062856298,1062856300)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    },
+    {
+     "ident": "17/35",
+     "cabeceira_a": {
+      "ident": "17",
+      "lat": -12.907756,
+      "lon": -38.343768
+     },
+     "cabeceira_b": {
+      "ident": "35",
+      "lat": -12.918896,
+      "lon": -38.335445
+     },
+     "comprimento_m": 1520,
+     "comprimento_osm_m": 1532,
+     "largura_m": 45,
+     "rumo_verdadeiro": 143.9,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 12331757)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBPA",
+   "nome": "Aeroporto de Porto Alegre / Salgado Filho",
+   "lat": -29.993984,
+   "lon": -51.167482,
+   "elevacao_m": 3,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "11/29",
+     "cabeceira_a": {
+      "ident": "11",
+      "lat": -29.99437,
+      "lon": -51.183613
+     },
+     "cabeceira_b": {
+      "ident": "29",
+      "lat": -29.995027,
+      "lon": -51.149897
+     },
+     "comprimento_m": 3200,
+     "comprimento_osm_m": 3248,
+     "largura_m": 45,
+     "rumo_verdadeiro": 91.3,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 13487289)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBFZ",
+   "nome": "Aeroporto de Fortaleza / Pinto Martins",
+   "lat": -3.775833,
+   "lon": -38.532222,
+   "elevacao_m": 25,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "13/31",
+     "cabeceira_a": {
+      "ident": "13",
+      "lat": -3.772877,
+      "lon": -38.545441
+     },
+     "cabeceira_b": {
+      "ident": "31",
+      "lat": -3.779569,
+      "lon": -38.520452
+     },
+     "comprimento_m": 2755,
+     "comprimento_osm_m": 2871,
+     "largura_m": 45,
+     "rumo_verdadeiro": 105.0,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 24330814)"
+     },
+     "geometria_divergente": true,
+     "estimado": false
+    }
+   ]
+  },
+  {
+   "icao": "SBCF",
+   "nome": "Aeroporto de Confins (Belo Horizonte)",
+   "lat": -19.63571,
+   "lon": -43.966928,
+   "elevacao_m": 829,
+   "fonte_aerodromo": "OurAirports",
+   "pistas": [
+    {
+     "ident": "16/34",
+     "cabeceira_a": {
+      "ident": "16",
+      "lat": -19.623757,
+      "lon": -43.977933
+     },
+     "cabeceira_b": {
+      "ident": "34",
+      "lat": -19.64838,
+      "lon": -43.955162
+     },
+     "comprimento_m": 3600,
+     "comprimento_osm_m": 3631,
+     "largura_m": 45,
+     "rumo_verdadeiro": 138.9,
+     "fonte": {
+      "dimensoes": "OurAirports",
+      "cabeceiras_e_rumo": "OpenStreetMap (aeroway=runway, ways 5121266)"
+     },
+     "geometria_divergente": false,
+     "estimado": false
+    }
+   ]
+  }
+ ]
+}

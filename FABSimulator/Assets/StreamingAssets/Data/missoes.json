@@ -1,0 +1,115 @@
+{
+  "versao": 1,
+  "aviso": "Todos os cenarios, forcas, posicoes de inimigos e eventos sao FICCAO de jogo. Nenhum detalhe operacional real. Altitudes em metros acima do nivel do mar.",
+  "missoes": [
+    {
+      "id": "m01-escudo-do-pre-sal",
+      "titulo": "Escudo do Pré-Sal",
+      "tema": "defesa de ativos brasileiros",
+      "ficcao": true,
+      "briefing": "Uma plataforma de produção fictícia na Bacia de Santos, a cerca de 300 km da costa, detecta três contatos aéreos não cooperativos aproximando-se da zona de segurança. O Controle de Defesa Aérea ordena a decolagem imediata de uma esquadrilha de Santa Cruz. Identifique os contatos, mantenha-os afastados da plataforma e neutralize qualquer ameaça hostil antes que cheguem ao alcance de 20 km.",
+      "base_de_saida": "SBSC",
+      "aeronaves_permitidas": ["F-39E", "A-29"],
+      "clima": { "visibilidade_km": 10, "vento_kt": 12, "ficticio": true },
+      "ativos_a_proteger": [
+        { "id": "plataforma-bs-01", "nome": "Plataforma fictícia BS-01", "posicao": { "lat": -25.35, "lon": -42.6, "altitude_m": 0 }, "raio_de_seguranca_km": 20 }
+      ],
+      "objetivos": [
+        { "id": "o1", "tipo": "identificar", "descricao": "Identificar visualmente os três contatos antes de 40 km da plataforma.", "obrigatorio": true },
+        { "id": "o2", "tipo": "interceptar", "descricao": "Interceptar e neutralizar os drones hostis fora do raio de segurança.", "obrigatorio": true },
+        { "id": "o3", "tipo": "retornar", "descricao": "Pousar em SBSC ou SBGL.", "obrigatorio": true },
+        { "id": "o4", "tipo": "bonus", "descricao": "Concluir a missão sem gastar mais de 50% da munição.", "obrigatorio": false }
+      ],
+      "inimigos": [
+        { "tipo": "drone_de_ataque_ficticio", "quantidade": 2, "posicao": { "lat": -25.9, "lon": -41.7, "altitude_m": 1500 }, "comportamento": "rumo direto à plataforma" },
+        { "tipo": "aeronave_nao_cooperativa", "quantidade": 1, "posicao": { "lat": -26.1, "lon": -41.9, "altitude_m": 8000 }, "comportamento": "orbita a 60 km da plataforma, hostil se provocado" }
+      ],
+      "condicoes_de_vitoria_e_derrota": {
+        "vitoria": ["Todos os contatos hostis neutralizados ou expulsos da zona.", "Plataforma sem danos.", "Esquadrilha pousa em base amiga."],
+        "derrota": ["Plataforma atingida.", "Perda de todas as aeronaves do jogador.", "Combustível esgotado antes de pousar."]
+      }
+    },
+    {
+      "id": "m02-fronteira-amazonica",
+      "titulo": "Fronteira Amazônica",
+      "tema": "combate ao narcotráfico",
+      "ficcao": true,
+      "briefing": "O radar de vigilância detecta três aeronaves leves sem plano de voo cruzando a fronteira norte de Roraima em baixa altitude, rumo a uma pista clandestina fictícia. A missão é interceptar, identificar e forçar o pouso. Siga as etapas de interceptação do jogo: contato visual, ordem de pouso por rádio, sinais de asa e, só depois de esgotadas, medidas coercitivas autorizadas pelo Controle. Uma aeronave KC-390 pode ser usada em apoio logístico no posto avançado.",
+      "base_de_saida": "SBBV",
+      "aeronaves_permitidas": ["A-29", "F-39E", "KC-390"],
+      "clima": { "visibilidade_km": 6, "vento_kt": 6, "nuvens": "pancadas esparsas", "ficticio": true },
+      "ativos_a_proteger": [],
+      "objetivos": [
+        { "id": "o1", "tipo": "identificar", "descricao": "Identificar as três aeronaves e informar o Controle.", "obrigatorio": true },
+        { "id": "o2", "tipo": "forcar_pouso", "descricao": "Conduzir as aeronaves a pouso em SBBV ou neutralizá-las apenas após autorização do Controle.", "obrigatorio": true },
+        { "id": "o3", "tipo": "retornar", "descricao": "Retornar e pousar em SBBV.", "obrigatorio": true },
+        { "id": "o4", "tipo": "apoio_logistico", "descricao": "Opcional (KC-390): lançar suprimentos no posto avançado fictício.", "obrigatorio": false, "posicao": { "lat": 4.1, "lon": -61.2, "altitude_m": 150 } }
+      ],
+      "inimigos": [
+        { "tipo": "aeronave_leve_ilicita", "quantidade": 2, "posicao": { "lat": 4.3, "lon": -61.3, "altitude_m": 600 }, "comportamento": "evasiva; pousa se interceptada corretamente" },
+        { "tipo": "aeronave_leve_ilicita", "quantidade": 1, "posicao": { "lat": 3.9, "lon": -61.8, "altitude_m": 450 }, "comportamento": "segue para a pista clandestina" }
+      ],
+      "pontos_de_interesse": [
+        { "id": "pista-clandestina", "nome": "Pista clandestina fictícia", "posicao": { "lat": 3.5, "lon": -62.3, "altitude_m": 150 } }
+      ],
+      "condicoes_de_vitoria_e_derrota": {
+        "vitoria": ["As três aeronaves foram forçadas a pousar ou neutralizadas com autorização.", "Esquadrilha retorna a SBBV."],
+        "derrota": ["Uma aeronave ilícita pousa na pista clandestina sem ser interceptada.", "Tiro sem seguir as etapas de interceptação.", "Perda da aeronave do jogador."]
+      }
+    },
+    {
+      "id": "m03-atlantico-sul",
+      "titulo": "Atlântico Sul",
+      "tema": "cenário fictício contra forças dos EUA",
+      "ficcao": true,
+      "briefing": "Cenário hipotético de jogo: uma força-tarefa aérea fictícia, identificada como 'forças dos EUA (ficção)', realiza voo de reconhecimento escoltado ao largo do litoral do Nordeste e ignora as ordens do Controle. Decole de Natal, imponha a soberania do espaço aéreo e force a saída do grupo sem escalar além do necessário. Qualquer disparo contra o jogador autoriza a resposta.",
+      "base_de_saida": "SBNT",
+      "aeronaves_permitidas": ["F-39E"],
+      "clima": { "visibilidade_km": 15, "vento_kt": 15, "ficticio": true },
+      "ativos_a_proteger": [
+        { "id": "litoral-ne", "nome": "Espaço aéreo do litoral do Nordeste", "posicao": { "lat": -5.91, "lon": -35.25, "altitude_m": 0 }, "raio_de_seguranca_km": 60 }
+      ],
+      "objetivos": [
+        { "id": "o1", "tipo": "interceptar", "descricao": "Interceptar o grupo antes de 60 km da costa.", "obrigatorio": true },
+        { "id": "o2", "tipo": "intimar", "descricao": "Ordenar a saída do espaço aéreo por rádio e por sinais de asa.", "obrigatorio": true },
+        { "id": "o3", "tipo": "neutralizar_se_hostil", "descricao": "Neutralizar apenas aeronaves que engajarem o jogador.", "obrigatorio": false },
+        { "id": "o4", "tipo": "retornar", "descricao": "Pousar em SBNT.", "obrigatorio": true }
+      ],
+      "inimigos": [
+        { "tipo": "aeronave_de_reconhecimento_ficticia", "quantidade": 1, "posicao": { "lat": -6.0, "lon": -31.5, "altitude_m": 11000 }, "comportamento": "mantém rumo ao litoral" },
+        { "tipo": "cacador_de_escolta_ficticio", "quantidade": 4, "posicao": { "lat": -6.4, "lon": -31.8, "altitude_m": 9000 }, "comportamento": "escolta; engaja se atacado" }
+      ],
+      "condicoes_de_vitoria_e_derrota": {
+        "vitoria": ["O grupo deixa o espaço aéreo brasileiro ou é neutralizado após engajar o jogador.", "Jogador pousa em SBNT."],
+        "derrota": ["Aeronave de reconhecimento cruza o limite de 60 km da costa sem resposta.", "Perda do F-39E.", "Disparo contra o grupo sem provocação."]
+      }
+    },
+    {
+      "id": "m04-defesa-da-hidreletrica",
+      "titulo": "Defesa da Hidrelétrica",
+      "tema": "cenário fictício contra forças da Argentina",
+      "ficcao": true,
+      "briefing": "Cenário hipotético de jogo: após uma crise fictícia, aeronaves de um país vizinho ('forças da Argentina (ficção)') cruzam a fronteira em direção à usina hidrelétrica de Itaipu. Esquadrilhas de Santa Maria devem defender a barragem de um ataque em duas ondas: caças em altitude e atacantes em voo baixo. A hidrelétrica é crítica para o abastecimento de energia: não permita que seja atingida.",
+      "base_de_saida": "SBSM",
+      "aeronaves_permitidas": ["F-39E", "A-29"],
+      "clima": { "visibilidade_km": 12, "vento_kt": 10, "ficticio": true },
+      "ativos_a_proteger": [
+        { "id": "itaipu", "nome": "Usina hidrelétrica de Itaipu", "posicao": { "lat": -25.408, "lon": -54.589, "altitude_m": 220 }, "raio_de_seguranca_km": 15 }
+      ],
+      "objetivos": [
+        { "id": "o1", "tipo": "interceptar", "descricao": "Neutralizar a primeira onda de caças em altitude.", "obrigatorio": true },
+        { "id": "o2", "tipo": "interceptar", "descricao": "Neutralizar os atacantes de voo baixo antes de 15 km da barragem.", "obrigatorio": true },
+        { "id": "o3", "tipo": "retornar", "descricao": "Pousar em SBSM ou SBCG.", "obrigatorio": true },
+        { "id": "o4", "tipo": "bonus", "descricao": "Nenhuma perda amiga.", "obrigatorio": false }
+      ],
+      "inimigos": [
+        { "tipo": "cacador_ficticio", "quantidade": 4, "posicao": { "lat": -26.3, "lon": -55.3, "altitude_m": 4500 }, "comportamento": "primeira onda; busca superioridade aérea" },
+        { "tipo": "aeronave_de_ataque_ficticia", "quantidade": 2, "posicao": { "lat": -26.6, "lon": -55.8, "altitude_m": 300 }, "comportamento": "segunda onda; voo baixo rumo à usina" }
+      ],
+      "condicoes_de_vitoria_e_derrota": {
+        "vitoria": ["Todas as aeronaves hostis neutralizadas ou expulsas.", "Usina sem danos.", "Jogador pousa em base amiga."],
+        "derrota": ["Usina atingida.", "Perda de todas as aeronaves do jogador.", "Combustível esgotado antes de pousar."]
+      }
+    }
+  ]
+}

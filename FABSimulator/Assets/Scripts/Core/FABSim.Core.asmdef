@@ -1,0 +1,6 @@
+{
+  "name": "FABSim.Core",
+  "rootNamespace": "FABSim.Core",
+  "references": [],
+  "noEngineReferences": true
+}

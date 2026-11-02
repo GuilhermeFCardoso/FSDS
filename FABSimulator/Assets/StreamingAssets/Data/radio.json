@@ -1,0 +1,118 @@
+{
+  "versao": 1,
+  "aviso": "Fraseologia inspirada no estilo aeronáutico brasileiro e simplificada para jogo. Não substitui nem cita regulamento oficial.",
+  "variaveis": {
+    "{indicativo}": "indicativo de chamada do jogador, ex.: Falcão 1",
+    "{torre}": "nome da estação, ex.: Torre Santa Cruz",
+    "{controle}": "órgão de controle, ex.: Controle de Defesa Aérea",
+    "{pista}": "pista em uso, ex.: 05",
+    "{vento}": "vento, ex.: 090 graus, 8 nós",
+    "{rumo}": "proa em graus, ex.: 270",
+    "{altitude}": "altitude ou nível, ex.: 3000 pés",
+    "{qnh}": "ajuste de altímetro, ex.: 1015",
+    "{alvo}": "descrição do contato, ex.: contato não cooperativo",
+    "{posicao}": "posição relativa, ex.: 2 horas, 30 milhas, 8000 pés",
+    "{arma}": "arma empregada, ex.: Meteor",
+    "{base}": "base de destino, ex.: Santa Cruz",
+    "{pane}": "descrição da pane, ex.: falha hidráulica"
+  },
+  "eventos": {
+    "acionamento": [
+      { "id": "ac-1", "dialogo": [
+        { "de": "piloto", "texto": "{torre}, {indicativo}, solicito acionamento." },
+        { "de": "torre", "texto": "{indicativo}, {torre}, acionamento autorizado. QNH {qnh}." },
+        { "de": "piloto", "texto": "Acionamento autorizado, QNH {qnh}, {indicativo}." }
+      ]},
+      { "id": "ac-2", "dialogo": [
+        { "de": "piloto", "texto": "{torre}, {indicativo}, na posição de estacionamento, pronto para acionar." },
+        { "de": "torre", "texto": "{indicativo}, acione quando pronto. Vento {vento}." }
+      ]}
+    ],
+    "taxi": [
+      { "id": "tx-1", "dialogo": [
+        { "de": "piloto", "texto": "{torre}, {indicativo}, solicito táxi." },
+        { "de": "torre", "texto": "{indicativo}, táxi para a pista {pista}, mantenha antes da cabeceira. Vento {vento}." },
+        { "de": "piloto", "texto": "Táxi para a pista {pista}, mantenho antes da cabeceira, {indicativo}." }
+      ]},
+      { "id": "tx-2", "dialogo": [
+        { "de": "piloto", "texto": "{torre}, {indicativo}, mantendo antes da pista {pista}, pronto." },
+        { "de": "torre", "texto": "{indicativo}, aguarde." }
+      ]}
+    ],
+    "decolagem": [
+      { "id": "dc-1", "dialogo": [
+        { "de": "piloto", "texto": "{torre}, {indicativo}, pronto para decolagem, pista {pista}." },
+        { "de": "torre", "texto": "{indicativo}, vento {vento}, pista {pista}, autorizado decolar." },
+        { "de": "piloto", "texto": "Autorizado decolar, pista {pista}, {indicativo}." }
+      ]},
+      { "id": "dc-2", "dialogo": [
+        { "de": "torre", "texto": "{indicativo}, após a decolagem, suba na proa da pista, contate {controle}." },
+        { "de": "piloto", "texto": "Contato com {controle}, {indicativo}." }
+      ]}
+    ],
+    "briefing_em_voo": [
+      { "id": "bf-1", "dialogo": [
+        { "de": "controle", "texto": "{indicativo}, {controle}. Contato {alvo} na posição {posicao}. Proa {rumo}, identifique e reporte." },
+        { "de": "piloto", "texto": "Proa {rumo}, {indicativo}." }
+      ]},
+      { "id": "bf-2", "dialogo": [
+        { "de": "controle", "texto": "{indicativo}, {controle}. Sua missão: proteger o ativo e interceptar contatos hostis. Mantenha {altitude}." },
+        { "de": "piloto", "texto": "Mantenho {altitude}, {indicativo}." }
+      ]}
+    ],
+    "alvo_detectado": [
+      { "id": "ad-1", "dialogo": [
+        { "de": "piloto", "texto": "{controle}, {indicativo}, contato radar, {alvo}, {posicao}." },
+        { "de": "controle", "texto": "{indicativo}, copiado. Identifique visualmente antes de qualquer ação." }
+      ]},
+      { "id": "ad-2", "dialogo": [
+        { "de": "piloto", "texto": "{indicativo}, tenho o contato em {posicao}, solicito instruções." },
+        { "de": "controle", "texto": "{indicativo}, proa {rumo} para interceptação." }
+      ]}
+    ],
+    "missil_lancado": [
+      { "id": "ml-1", "dialogo": [
+        { "de": "piloto", "texto": "{indicativo}, {arma} lançado." },
+        { "de": "controle", "texto": "{indicativo}, copiado. Mantenha o rumo e reporte o resultado." }
+      ]},
+      { "id": "ml-2", "dialogo": [
+        { "de": "piloto", "texto": "{indicativo}, disparo realizado, {arma}, rumo {rumo}." }
+      ]},
+      { "id": "ml-3", "dialogo": [
+        { "de": "controle", "texto": "{indicativo}, alerta: míssil lançado contra você, posição {posicao}. Manobra evasiva." },
+        { "de": "piloto", "texto": "Manobra evasiva, {indicativo}." }
+      ]}
+    ],
+    "objetivo_cumprido": [
+      { "id": "oc-1", "dialogo": [
+        { "de": "piloto", "texto": "{controle}, {indicativo}, objetivo cumprido." },
+        { "de": "controle", "texto": "{indicativo}, copiado, bom trabalho. Retorne à base {base}, proa {rumo}." },
+        { "de": "piloto", "texto": "Retornando à base {base}, proa {rumo}, {indicativo}." }
+      ]},
+      { "id": "oc-2", "dialogo": [
+        { "de": "controle", "texto": "{indicativo}, confirmo contato neutralizado. Encerrar missão e regressar." }
+      ]}
+    ],
+    "pouso": [
+      { "id": "po-1", "dialogo": [
+        { "de": "piloto", "texto": "{torre}, {indicativo}, na final da pista {pista}." },
+        { "de": "torre", "texto": "{indicativo}, vento {vento}, pista {pista}, autorizado pouso." },
+        { "de": "piloto", "texto": "Autorizado pouso, pista {pista}, {indicativo}." }
+      ]},
+      { "id": "po-2", "dialogo": [
+        { "de": "torre", "texto": "{indicativo}, livre a pista pela esquerda, contate solo." },
+        { "de": "piloto", "texto": "Livrando pela esquerda, {indicativo}." }
+      ]}
+    ],
+    "pane": [
+      { "id": "pn-1", "dialogo": [
+        { "de": "piloto", "texto": "Mayday, mayday, mayday, {torre}, {indicativo}, {pane}, solicito pouso imediato." },
+        { "de": "torre", "texto": "{indicativo}, {torre}, pista {pista} livre, vento {vento}, autorizado pouso imediato." }
+      ]},
+      { "id": "pn-2", "dialogo": [
+        { "de": "piloto", "texto": "{controle}, {indicativo}, declaro emergência, {pane}." },
+        { "de": "controle", "texto": "{indicativo}, emergência copiada. Proa {rumo} para {base}, mantenha {altitude}." }
+      ]}
+    ]
+  }
+}
