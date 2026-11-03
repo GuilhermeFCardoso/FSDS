@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Saguao.unity
+    guid: c20d194870d87d24fbc8074985fc3763
+  - enabled: 1
     path: Assets/Scenes/Voo.unity
     guid: 4a8489b58e33eb945a54170cd540bf2e
   m_configObjects: {}

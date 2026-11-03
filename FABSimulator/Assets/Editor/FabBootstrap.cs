@@ -6,11 +6,13 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public static class FabBootstrap
 {
     const string Root = "Assets/Settings";
     const string ScenePath = "Assets/Scenes/Voo.unity";
+    const string LobbyPath = "Assets/Scenes/Saguao.unity";
 
     [MenuItem("FAB Simulator/Gerar cena de voo")]
     public static void Build()
@@ -18,8 +20,12 @@ public static class FabBootstrap
         EnsureFolder("Assets/Settings");
         EnsureFolder("Assets/Scenes");
         ConfigurePlayer();
+        BuildLibrary();
         ConfigurePipeline();
+        BuildPanel();
+        BuildLobby();
         BuildScene();
+        EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(LobbyPath, true), new EditorBuildSettingsScene(ScenePath, true) };
         AssetDatabase.SaveAssets();
         Debug.Log("[FabBootstrap] Projeto pronto.");
     }
@@ -31,8 +37,122 @@ public static class FabBootstrap
         AssetDatabase.CreateFolder(path.Substring(0, i), path.Substring(i + 1));
     }
 
+    static void BuildLibrary()
+    {
+        EnsureFolder("Assets/Resources");
+        Transparent("FabChama", 1);
+        Transparent("FabFumaca", 0);
+        var tracer = new Material(Shader.Find("HDRP/Unlit"));
+        tracer.SetColor("_UnlitColor", new Color(6f, 4f, 1.6f));
+        SaveMat(tracer, "FabTracer");
+        var vidro = new Material(Shader.Find("HDRP/Lit"));
+        vidro.SetColor("_BaseColor", new Color(0.75f, 0.85f, 0.92f, 0.12f));
+        vidro.SetFloat("_Smoothness", 0.95f);
+        HDMaterial.SetSurfaceType(vidro, true);
+        HDMaterial.ValidateMaterial(vidro);
+        SaveMat(vidro, "FabVidro");
+        var tela = new Material(Shader.Find("HDRP/Unlit"));
+        tela.SetColor("_UnlitColor", Color.white);
+        HDMaterial.ValidateMaterial(tela);
+        SaveMat(tela, "FabTela");
+        Lit("FabMetal", new Color(0.42f, 0.44f, 0.46f), 0.4f);
+        Lit("FabDestroco", new Color(0.03f, 0.03f, 0.03f), 0.05f);
+        string path = "Assets/Resources/FabModels.asset";
+        var lib = AssetDatabase.LoadAssetAtPath<ModelLibrary>(path);
+        if (lib == null) { lib = ScriptableObject.CreateInstance<ModelLibrary>(); AssetDatabase.CreateAsset(lib, path); }
+        lib.entries.Clear();
+        foreach (var kv in ModelFit.Table)
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(kv.Value.Path);
+            if (prefab == null) { Debug.LogError("[FabBootstrap] Modelo nao encontrado: " + kv.Value.Path); continue; }
+            lib.entries.Add(new ModelLibrary.Entry { key = kv.Key, prefab = prefab });
+        }
+        EditorUtility.SetDirty(lib);
+    }
+
+    static void SaveMat(Material m, string name)
+    {
+        string p = $"Assets/Resources/{name}.mat";
+        if (AssetDatabase.LoadAssetAtPath<Material>(p) != null) AssetDatabase.DeleteAsset(p);
+        AssetDatabase.CreateAsset(m, p);
+    }
+
+    static void Transparent(string name, int blend)
+    {
+        var m = new Material(Shader.Find("HDRP/Unlit"));
+        m.SetFloat("_BlendMode", blend);
+        m.SetFloat("_DoubleSidedEnable", 1);
+        m.SetFloat("_ZWrite", 0);
+        m.SetFloat("_TransparentZWrite", 0);
+        m.SetColor("_UnlitColor", Color.white);
+        HDMaterial.SetSurfaceType(m, true);
+        HDMaterial.ValidateMaterial(m);
+        SaveMat(m, name);
+    }
+
+    static void Lit(string name, Color c, float smooth)
+    {
+        var m = new Material(Shader.Find("HDRP/Lit"));
+        m.SetColor("_BaseColor", c);
+        m.SetFloat("_Smoothness", smooth);
+        HDMaterial.ValidateMaterial(m);
+        SaveMat(m, name);
+    }
+
+    static void BuildPanel()
+    {
+        EnsureFolder("Assets/UI");
+        string p = "Assets/UI/FabPainel.asset";
+        if (AssetDatabase.LoadAssetAtPath<PanelSettings>(p) != null) AssetDatabase.DeleteAsset(p);
+        var s = ScriptableObject.CreateInstance<PanelSettings>();
+        s.themeStyleSheet = AssetDatabase.LoadAssetAtPath<ThemeStyleSheet>("Assets/UI/FabTema.tss");
+        if (s.themeStyleSheet == null) Debug.LogError("[FabBootstrap] Tema de UI ausente");
+        s.scaleMode = PanelScaleMode.ScaleWithScreenSize;
+        s.referenceResolution = new Vector2Int(1920, 1080);
+        s.match = 0.5f;
+        AssetDatabase.CreateAsset(s, p);
+    }
+
+    static UIDocument AddUi(GameObject go)
+    {
+        var d = go.AddComponent<UIDocument>();
+        d.panelSettings = AssetDatabase.LoadAssetAtPath<PanelSettings>("Assets/UI/FabPainel.asset");
+        return d;
+    }
+
+    static void BuildLobby()
+    {
+        var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        MakeSun();
+        var volume = new GameObject("Ceu").AddComponent<Volume>();
+        volume.isGlobal = true;
+        volume.sharedProfile = BuildProfile("FabSaguaoCeu", false);
+        var floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        floor.name = "Patio";
+        floor.transform.position = new Vector3(0, -0.5f, 0);
+        floor.transform.localScale = new Vector3(600, 1, 600);
+        Lit("FabPatio", new Color(0.06f, 0.065f, 0.07f), 0.55f);
+        floor.GetComponent<Renderer>().sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/FabPatio.mat");
+        var table = new GameObject("Vitrine");
+        var camGo = new GameObject("Camera");
+        var cam = camGo.AddComponent<Camera>();
+        camGo.tag = "MainCamera";
+        camGo.AddComponent<HDAdditionalCameraData>();
+        camGo.AddComponent<AudioListener>();
+        cam.fieldOfView = 32;
+        cam.transform.position = new Vector3(0, 6, -30);
+        var ctrl = new GameObject("Saguao");
+        AddUi(ctrl);
+        var sag = ctrl.AddComponent<Saguao>();
+        sag.turntable = table.transform;
+        sag.cam = cam;
+        EditorSceneManager.SaveScene(scene, LobbyPath);
+    }
+
     static void ConfigurePlayer()
     {
+        PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.StandaloneWindows64, false);
+        PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64, new[] { UnityEngine.Rendering.GraphicsDeviceType.Direct3D11 });
         PlayerSettings.colorSpace = ColorSpace.Linear;
         PlayerSettings.companyName = "FAB Simulator";
         PlayerSettings.productName = "FAB Simulator - Defendendo a Soberania Nacional";
@@ -74,9 +194,9 @@ public static class FabBootstrap
         EditorUtility.SetDirty(hd);
     }
 
-    static VolumeProfile BuildProfile()
+    static VolumeProfile BuildProfile(string name, bool withClouds)
     {
-        string path = Root + "/FabCeu.asset";
+        string path = $"{Root}/{name}.asset";
         var old = AssetDatabase.LoadAssetAtPath<VolumeProfile>(path);
         if (old != null) AssetDatabase.DeleteAsset(path);
         var profile = ScriptableObject.CreateInstance<VolumeProfile>();
@@ -90,8 +210,21 @@ public static class FabBootstrap
         fog.meanFreePath.Override(60000f);
         fog.baseHeight.Override(0f);
         fog.maximumHeight.Override(6000f);
-        var clouds = profile.Add<VolumetricClouds>(true);
-        clouds.enable.Override(true);
+        if (withClouds)
+        {
+            var clouds = profile.Add<VolumetricClouds>(true);
+            clouds.enable.Override(true);
+            clouds.bottomAltitude.Override(3000f);
+            clouds.altitudeRange.Override(2200f);
+        }
+        var blur = profile.Add<MotionBlur>(true);
+        blur.intensity.Override(0f);
+        var tone = profile.Add<Tonemapping>(true);
+        tone.mode.Override(TonemappingMode.ACES);
+        var bloom = profile.Add<Bloom>(true);
+        bloom.intensity.Override(0.12f);
+        var shadows = profile.Add<HDShadowSettings>(true);
+        shadows.maxShadowDistance.Override(1500f);
         var exposure = profile.Add<Exposure>(true);
         exposure.mode.Override(ExposureMode.AutomaticHistogram);
         foreach (var c in profile.components) AssetDatabase.AddObjectToAsset(c, profile);
@@ -99,10 +232,8 @@ public static class FabBootstrap
         return profile;
     }
 
-    static void BuildScene()
+    static void MakeSun()
     {
-        var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-
         var sun = new GameObject("Sol").AddComponent<Light>();
         sun.type = LightType.Directional;
         sun.gameObject.AddComponent<HDAdditionalLightData>();
@@ -110,10 +241,17 @@ public static class FabBootstrap
         sun.intensity = 100000f;
         sun.shadows = LightShadows.Soft;
         sun.transform.rotation = Quaternion.Euler(52, 35, 0);
+    }
+
+    static void BuildScene()
+    {
+        var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+        MakeSun();
 
         var volume = new GameObject("Ceu").AddComponent<Volume>();
         volume.isGlobal = true;
-        volume.sharedProfile = BuildProfile();
+        volume.sharedProfile = BuildProfile("FabCeu", true);
 
         var geoGo = new GameObject("CesiumGeoreference");
         var geo = geoGo.AddComponent<CesiumGeoreference>();
@@ -125,7 +263,7 @@ public static class FabBootstrap
         terrain.tilesetSource = CesiumDataSource.FromCesiumIon;
         terrain.ionAssetID = 1;
         terrain.createPhysicsMeshes = true;
-        terrain.maximumScreenSpaceError = 16f;
+        terrain.maximumScreenSpaceError = 8f;
         terrain.maximumCachedBytes = 1024L * 1024 * 1024;
         var imagery = terrainGo.AddComponent<CesiumIonRasterOverlay>();
         imagery.ionAssetID = 2;
@@ -135,7 +273,6 @@ public static class FabBootstrap
         plane.AddComponent<CesiumGlobeAnchor>();
         var shift = plane.AddComponent<CesiumOriginShift>();
         shift.distance = 2000;
-        BuildPlaceholder(plane.transform);
 
         var camGo = new GameObject("Camera");
         var cam = camGo.AddComponent<Camera>();
@@ -146,34 +283,16 @@ public static class FabBootstrap
         cam.farClipPlane = 1000000f;
 
         var ctrl = new GameObject("Voo").AddComponent<FlightController>();
+        AddUi(ctrl.gameObject);
+        ctrl.gameObject.AddComponent<Combate>();
+        ctrl.gameObject.AddComponent<Hud>();
         ctrl.georeference = geo;
         ctrl.terrain = terrain;
         ctrl.model = plane.transform;
         ctrl.cam = cam;
+        Application.runInBackground = true;
+        PlayerSettings.runInBackground = true;
 
         EditorSceneManager.SaveScene(scene, ScenePath);
-        EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
-    }
-
-    static void BuildPlaceholder(Transform parent)
-    {
-        var mat = new Material(Shader.Find("HDRP/Lit"));
-        mat.SetColor("_BaseColor", new Color(0.42f, 0.47f, 0.52f));
-        AssetDatabase.CreateAsset(mat, Root + "/FabProvisorio.mat");
-        Part(parent, PrimitiveType.Capsule, new Vector3(0, 0, 0), new Vector3(1.3f, 7.6f, 1.3f), new Vector3(90, 0, 0), mat);
-        Part(parent, PrimitiveType.Cube, new Vector3(0, -0.2f, -1.5f), new Vector3(8.6f, 0.12f, 3.6f), Vector3.zero, mat);
-        Part(parent, PrimitiveType.Cube, new Vector3(0, 0.1f, 3.2f), new Vector3(4.3f, 0.08f, 1.2f), Vector3.zero, mat);
-        Part(parent, PrimitiveType.Cube, new Vector3(0, 1.5f, -5.4f), new Vector3(0.12f, 2.8f, 2.2f), Vector3.zero, mat);
-    }
-
-    static void Part(Transform parent, PrimitiveType type, Vector3 pos, Vector3 scale, Vector3 euler, Material mat)
-    {
-        var go = GameObject.CreatePrimitive(type);
-        Object.DestroyImmediate(go.GetComponent<Collider>());
-        go.transform.SetParent(parent, false);
-        go.transform.localPosition = pos;
-        go.transform.localScale = scale;
-        go.transform.localEulerAngles = euler;
-        go.GetComponent<Renderer>().sharedMaterial = mat;
     }
 }

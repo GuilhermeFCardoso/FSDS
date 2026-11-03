@@ -151,7 +151,7 @@ namespace FABSim.Core
         public double Lat, Lon, Z;
         public V3 V, W;
         public Quat Q;
-        public double Fuel, N, Ab, Flaps, Gear = 1, Sb, De, Da, Dr, Att = 1, StallDir, Buf, Thrust, Flow, OverG, Trim, Throttle;
+        public double StoreMass, Fuel, N, Ab, Flaps, Gear = 1, Sb, De, Da, Dr, Att = 1, StallDir, Buf, Thrust, Flow, OverG, Trim, Throttle;
         public V3 Bn, Turb;
         public bool Contact;
         public string Crashed = "";
@@ -267,7 +267,7 @@ namespace FABSim.Core
         {
             var s = NewState(ac, lat, lon, z, hdg, fuelFrac, env);
             var atm = Isa(z, s.Env);
-            double m = ac.Mass0 + s.Fuel;
+            double m = ac.Mass0 + s.Fuel + s.StoreMass;
             double qS = 0.5 * atm.Rho * V * V * ac.S;
             s.Gear = ac.GearFixed ? 1 : 0;
             s.Flaps = 0;
@@ -301,7 +301,7 @@ namespace FABSim.Core
         public static void Step(FlightState s, AircraftDef ac, Controls ctl, double dt, double groundZ)
         {
             if (s.Crashed.Length > 0) return;
-            double m = ac.Mass0 + s.Fuel;
+            double m = ac.Mass0 + s.Fuel + s.StoreMass;
             var env = s.Env;
             var atm = Isa(s.Z, env);
             double hw = s.Z - groundZ;

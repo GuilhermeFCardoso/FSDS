@@ -62,7 +62,7 @@ namespace FABSim.Core
     public sealed class UnitProfile
     {
         public string Tipo, Model, Name;
-        public bool Armed = true;
+        public bool Armed = true, Heli;
         public double Hp = 100, R = 7, GmaxBase = 5, GmaxSkill = 2.2, Cruise = 205, VMin = 105, VMax = 330;
         public int Missiles = 2, Flares = 14;
 
@@ -75,6 +75,10 @@ namespace FABSim.Core
             ["A-4X"] = new UnitProfile { Tipo = "A-4X", Model = "ARG_A4X", Name = "A-4", Cruise = 170, VMax = 280, R = 6, GmaxBase = 4, Missiles = 1 },
             ["Cessna 172"] = new UnitProfile { Tipo = "Cessna 172", Model = "NARCO_Cessna172", Name = "Cessna 172", Armed = false, Hp = 30, R = 5, GmaxBase = 2.5, GmaxSkill = 0.5, Cruise = 55, VMin = 26, VMax = 66, Missiles = 0, Flares = 0 },
             ["Cessna 421"] = new UnitProfile { Tipo = "Cessna 421", Model = "NARCO_Cessna421", Name = "Cessna 421", Armed = false, Hp = 45, R = 6, GmaxBase = 2.5, GmaxSkill = 0.5, Cruise = 90, VMin = 38, VMax = 118, Missiles = 0, Flares = 0 },
+            ["drone_de_ataque_ficticio"] = new UnitProfile { Tipo = "drone_de_ataque_ficticio", Model = "ARG_A4X", Name = "Drone", Hp = 40, R = 5, GmaxBase = 3, GmaxSkill = 0.5, Cruise = 150, VMax = 220, Missiles = 0, Flares = 0 },
+            ["aeronave_nao_cooperativa"] = new UnitProfile { Tipo = "aeronave_nao_cooperativa", Model = "EUA_P8", Name = "Não cooperativa", Armed = false, Hp = 150, R = 18, GmaxBase = 1.8, GmaxSkill = 0.3, Cruise = 200, VMin = 90, VMax = 245, Missiles = 0, Flares = 10 },
+            ["MH-47G"] = new UnitProfile { Tipo = "MH-47G", Model = "EUA_MH47", Name = "MH-47G", Armed = false, Heli = true, Hp = 140, R = 11, GmaxBase = 1.5, GmaxSkill = 0.2, Cruise = 82, VMin = 30, VMax = 90, Missiles = 0, Flares = 24 },
+            ["MH-60M"] = new UnitProfile { Tipo = "MH-60M", Model = "EUA_MH60", Name = "MH-60M", Armed = false, Heli = true, Hp = 90, R = 8, GmaxBase = 1.8, GmaxSkill = 0.3, Cruise = 78, VMin = 30, VMax = 90, Missiles = 0, Flares = 24 },
             ["Ala"] = new UnitProfile { Tipo = "Ala", Model = "F39E_ALA", Name = "Ala", Cruise = 215, Missiles = 4 },
         };
         static readonly UnitProfile fallback = new UnitProfile { Tipo = "?", Model = "EUA_FA18", Name = "Inimigo" };
@@ -85,6 +89,8 @@ namespace FABSim.Core
     public sealed class WaveSpec { public double Delay; public List<SpawnSpec> Groups = new List<SpawnSpec>(); public string Radio; }
     public sealed class MissionSpec
     {
+        public bool SemInimigos;
+        public V3? AlvoHeli;
         public string Id, Title;
         public bool Wingman = true, Endless;
         public V3? GroundSite;
@@ -186,6 +192,7 @@ namespace FABSim.Core
         public readonly List<CombatMsg> Msgs = new List<CombatMsg>();
         public readonly List<WeaponKind> Avail = new List<WeaponKind>();
         public readonly Ammo W = new Ammo();
+        public bool HeliNoAlvo;
 
         public bool InGun, InPickle, Firing, Pickle, Invuln, Assist;
         public WeaponKind Sel = WeaponKind.Gun;
@@ -379,7 +386,7 @@ namespace FABSim.Core
             bool groundDone = !mission.GroundSite.HasValue || (baseBuilt && PrimLeft <= 0);
             if (mission.GroundSite.HasValue && groundDone) waveT = 1e9;
             bool wavesDone = mission.GroundSite.HasValue ? groundDone : Wave >= mission.Waves.Count;
-            if (!mission.Endless && groundDone && wavesDone && !redAir) { Over = Outcome.Win; Say("MISSÃO CUMPRIDA", MsgKind.Good); }
+            if (!mission.Endless && !mission.SemInimigos && groundDone && wavesDone && !redAir) { Over = Outcome.Win; Say("MISSÃO CUMPRIDA", MsgKind.Good); }
         }
 
         void Shoot(AirUnit e, V3 dir, double spd, double dmg, double spread, bool tracer)
@@ -399,8 +406,25 @@ namespace FABSim.Core
 
         static V3 TgDir(Entity t) => t is PlayerEntity p ? p.Fwd : t is AirUnit a ? a.Dir : new V3(0, 1, 0);
 
+        void AiHeli(AirUnit e, double dt)
+        {
+            if ((e.GT -= dt) <= 0) { e.GT = 0.4; e.GHere = GAt(e.Pos); e.GAhead = GAt(e.Pos + e.Dir * (e.Spd * 6)); }
+            V3 alvo = mission.AlvoHeli ?? e.Pos;
+            double dx = alvo.X - e.Pos.X, dy = alvo.Y - e.Pos.Y, d = Math.Max(Math.Sqrt(dx * dx + dy * dy), 1);
+            if (d < 1500) HeliNoAlvo = true;
+            if (Incoming(e, out double incD) != null && incD < 2400 && (e.FlareCd -= dt) <= 0 && DropFlare(e)) e.FlareCd = 0.7;
+            double cota = Math.Max(e.GHere, e.GAhead) + 140;
+            V3 want = Cm.Norm(new V3(dx / d, dy / d, Cm.Clamp((cota - e.Pos.Z) * 0.03, -0.3, 0.3)));
+            e.Dir = Cm.TurnToward(e.Dir, want, 0.35 * dt);
+            e.Roll *= 1 - Math.Min(1, dt * 2);
+            e.Spd = e.Cruise;
+            e.Pos += e.Dir * (e.Spd * dt);
+            e.Vel = e.Dir * e.Spd;
+        }
+
         void AiJet(AirUnit e, double dt)
         {
+            if (e.Profile.Heli) { AiHeli(e, dt); return; }
             e.T += dt;
             if ((e.Rt -= dt) <= 0) { e.Rt = Rnd(1, 2); e.Tgt = PickTarget(e); }
             Entity tg = e.Tgt;

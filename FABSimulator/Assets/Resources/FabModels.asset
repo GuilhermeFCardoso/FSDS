@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d4e95b2d6a34041856a100ea336309, type: 3}
+  m_Name: FabModels
+  m_EditorClassIdentifier: Assembly-CSharp::FABSim.Game.ModelLibrary
+  entries:
+  - key: F39E
+    prefab: {fileID: -6689036041284674117, guid: a43ebfa7a5f02644c846f99ff9ee8ef4, type: 3}
+  - key: F39E_ALA
+    prefab: {fileID: -6689036041284674117, guid: 0c0603b4db1558844a2354813696bc6a, type: 3}
+  - key: A29
+    prefab: {fileID: 919132149155446097, guid: 2ea3a7a488484854798f47bb4ae5f005, type: 3}
+  - key: KC390
+    prefab: {fileID: 919132149155446097, guid: 761a88e8c64355b45afe4e15903ee942, type: 3}
+  - key: EUA_FA18
+    prefab: {fileID: -6689036041284674117, guid: 78167e78c1da1e944afcb2be9e3405c4, type: 3}
+  - key: EUA_F22
+    prefab: {fileID: -6689036041284674117, guid: 440d6e8f27101674ca29be258a7078b6, type: 3}
+  - key: EUA_MH47
+    prefab: {fileID: -6689036041284674117, guid: d64a76fb66b27dc41b388511fae76ad9, type: 3}
+  - key: EUA_MH60
+    prefab: {fileID: -6689036041284674117, guid: 5911106abced30143b91e709f193c2da, type: 3}
+  - key: EUA_P8
+    prefab: {fileID: -6689036041284674117, guid: 08a962fb504c91a4ba71f954fd4517b3, type: 3}
+  - key: ARG_Mirage3
+    prefab: {fileID: -6689036041284674117, guid: b7773ac0f16999f40aad1415e3bde849, type: 3}
+  - key: ARG_A4X
+    prefab: {fileID: -6689036041284674117, guid: fc462b242d502864497261896eb321a8, type: 3}
+  - key: NARCO_Cessna172
+    prefab: {fileID: 8128668236925612103, guid: c9d7a395805e8764184d95b43f3ad0cd, type: 3}
+  - key: NARCO_Cessna421
+    prefab: {fileID: -6689036041284674117, guid: 9efba2b83f7c3ec4c9f7baaf1f97bac6, type: 3}
+  - key: NAVIO_Tamandare
+    prefab: {fileID: -6689036041284674117, guid: 79f9bd1449b65ac4ba4ecb5a06a819d9, type: 3}
