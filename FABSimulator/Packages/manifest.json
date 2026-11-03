@@ -3,14 +3,15 @@
     {
       "name": "Cesium",
       "url": "https://unity.pkg.cesium.com",
-      "scopes": ["com.cesium.unity"]
+      "scopes": [
+        "com.cesium.unity"
+      ]
     }
   ],
   "dependencies": {
     "com.cesium.unity": "1.26.1",
+    "com.unity.cloud.gltfast": "6.20.0",
     "com.unity.inputsystem": "1.20.1",
-    "com.unity.render-pipelines.high-definition": "17.3.0",
-    "com.unity.ugui": "2.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.audio": "1.0.0",
     "com.unity.modules.imageconversion": "1.0.0",
@@ -24,6 +25,7 @@
     "com.unity.modules.unitywebrequest": "1.0.0",
     "com.unity.modules.unitywebrequestaudio": "1.0.0",
     "com.unity.modules.unitywebrequesttexture": "1.0.0",
-    "com.unity.modules.vfx": "1.0.0"
+    "com.unity.render-pipelines.high-definition": "17.3.0",
+    "com.unity.ugui": "2.0.0"
   }
 }

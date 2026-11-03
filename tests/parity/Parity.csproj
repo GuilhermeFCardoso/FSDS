@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <BaseIntermediateOutputPath>$(TEMP)\cbt\parity\obj\</BaseIntermediateOutputPath>
+    <OutputPath>$(TEMP)\cbt\parity\bin\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Checks.cs" />
+    <Compile Include="..\..\FABSimulator\Assets\Scripts\Core\FlightModel.cs" />
+    <Compile Include="..\..\FABSimulator\Assets\Scripts\Core\AircraftDb.cs" />
+    <Compile Include="..\..\FABSimulator\Assets\Scripts\Core\Combat.cs" />
+  </ItemGroup>
+</Project>

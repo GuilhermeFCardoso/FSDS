@@ -24,6 +24,21 @@ static class Program
         Stall = new StallDef { W = 0.05, On = 0.2, Off = 0.3, Cm0 = 0.1, Cm1 = 0.6, Rot = 0.6, Cd = 1.2 },
     };
 
+    static AircraftDef Tucano() => new AircraftDef
+    {
+        Id = "tucano", Mass0 = 3300, FuelMax = 600, S = 19.4, B = 11.14, C = 1.84, Ix = 4800, Iy = 8200, Iz = 11300,
+        CL0 = 0.28, CLa = 4.8, AStall = 0.28, CD0 = 0.027, K = 0.058, DCLf = 0.7, DCDf = 0.07, DCmf = -0.07, DAsf = -0.02,
+        DCDgear = 0.02, DCDsb = 0.03, DCLsb = 0, Cm0 = 0.05, Cma = -1.0, Cmq = -14, Cmde = 0.6,
+        Clb = -0.09, Clp = -0.5, Clr = 0.1, Clda = 0.12, Cldr = 0.008, Cnb = 0.08, Cnr = -0.11, Cnp = -0.03, Cndr = 0.05, Cnda = -0.008,
+        CYb = -0.33, CYdr = 0.16, Wave = new WaveDef { Mdd = 0.62, K = 25 },
+        FlapNotches = new double[] { 0, 20, 40 }, FlapRate = 2, GearRate = 0.3,
+        Engine = new EngineDef { Type = EngineType.Piston, Turbo = true, P = 1193e3, Eta = 0.8, V0 = 65, Bsfc = 0.3, Tau = 1.5, Dz = -0.1 },
+        Gear = new[] { W(2.6, 0, 1.35, 0.1, 25), W(-0.3, -1.3, 1.35, 0.45, 0, true), W(-0.3, 1.3, 1.35, 0.45, 0, true) },
+        Crash = new[] { new CrashPoint(4.4, 0, 0.1), new CrashPoint(-6.3, 0, 0.4, true), new CrashPoint(0, -5.5, 0.55), new CrashPoint(0, 5.5, 0.55), new CrashPoint(0.5, 0, -0.95) },
+        GearDefl = 0.14, GearStroke = 0.3, GearLoadLimit = 5, CgHeight = 1.2, NzLimitLow = -3, NzLimitHigh = 7, VRef = 70, GainE = 0.8, GainA = 0.75, GainR = 0.6,
+        Stall = new StallDef { On = 0.25, Off = 0.5, Cm0 = 0.2, Cm1 = 1.2, Rot = 0.9, Rb = 0.8, Ail = 0.4, Bias = 0.012, Warn = 0.07 },
+    };
+
     static AircraftDef B737() => new AircraftDef
     {
         Id = "b737", Mass0 = 52000, FuelMax = 16700, S = 125, B = 34.3, C = 3.9, Ix = 4.8e6, Iy = 9.0e6, Iz = 1.15e7,
@@ -86,14 +101,15 @@ static class Program
         });
     }
 
-    static void Main()
+    static void Main(string[] args)
     {
+        if (args.Length > 0 && args[0] == "checks") { Checks.Run(); return; }
         FlightModel.Rand = () => 0.5;
         Air("gripen_air", Gripen(), 180, 3000);
-        Air("tucano_air", AircraftDb.A29(), 85, 2000);
+        Air("tucano_air", Tucano(), 85, 2000);
         Air("b737_air", B737(), 130, 3000);
         Ground("gripen_to", Gripen(), 135);
-        Ground("tucano_to", AircraftDb.A29(), 85);
+        Ground("tucano_to", Tucano(), 85);
         Ground("b737_to", B737(), 150);
     }
 }

@@ -5,3 +5,8 @@ FABSimulator/Logs/
 FABSimulator/Build/
 FABSimulator/UserSettings/
 FABSimulator/cesium-ion-token.txt
+FABSimulator/Assets/Art/
+FABSimulator/Assets/Art.meta
+tests/parity/obj/
+tests/parity/bin/
+*.csv

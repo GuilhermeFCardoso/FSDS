@@ -69,6 +69,8 @@ O menu aceita um token do Cesium ion e uma chave do Google Maps (tiles 3D fotorr
 - **Dados** (`Assets/StreamingAssets/Data`): bases e pistas, armamento, rádio e missões em JSON.
 - **Token do Cesium ion:** crie `FABSimulator/cesium-ion-token.txt` com o seu token. O arquivo é ignorado pelo Git.
 
+- **Modelos 3D e fotos de cabine** (`Assets/Art`, cerca de 290 MB) não ficam no repositório, por tamanho e licenças. A origem de cada um está em [`docs/assets.md`](docs/assets.md).
+
 Os dados de missões, forças e inimigos são **ficção de jogo**, sem detalhes operacionais reais.
 
 ## Testes de paridade

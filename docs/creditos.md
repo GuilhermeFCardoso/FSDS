@@ -76,4 +76,13 @@ Itens aprovados em 2026-11-02 (ainda não baixados). Atribuição exigida em cr�
 | Modelo KC-390 | Embraer KC-390 "Millennium" | KOG_THORNS | CC BY 4.0 | https://sketchfab.com/3d-models/embraer-kc-390-millennium-ed745ffba2fe45b796cbc833116e3adc |
 | Foto cabine F-39E | GripenNG cockpit br.png | Brazilian Ministry of Defense | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:GripenNG_cockpit_br.png |
 | Foto cabine A-29 | Super Cucano Flight Simulator.png | USAF / Master Sgt. Jeffrey Allen | Domínio público | https://commons.wikimedia.org/wiki/File:Super_Cucano_Flight_Simulator.png |
+| Inimigo EUA (caça) | Boeing F/A-18E/F "Super Hornet" | andertan | CC BY 4.0 | https://sketchfab.com/3d-models/f71e9fea01e24fea9b1b380161d21d38 |
+| Inimigo EUA (reconhecimento) | Boeing P-8 Poseidon | Muhamad Mirza Arrafi | CC BY 4.0 | https://sketchfab.com/3d-models/3fc134024b69403bb5df5ab3aff48919 |
+| Inimigo Argentina (caça) | Dassault Mirage III | Spark_Customs | CC BY 4.0 | https://sketchfab.com/3d-models/9e61e04aa3a14159a6fe2f70b40fb8f2 |
+| Inimigo Argentina (ataque) | A-4X Ultra Skyhawk | pandoraskitten | CC BY 4.0 | https://sketchfab.com/3d-models/7b1cf9730fed43b3b4b94b37cb6677fa |
+| Narcotráfico (monomotor) | Plane (Cessna 172) | osmosikum | CC BY 4.0 | https://sketchfab.com/3d-models/cedc8a07370747f7b0d14400cdf2faf9 |
+| Narcotráfico (bimotor) | Cessna 421 Golden Eagle | helijah | CC BY 4.0 | https://sketchfab.com/3d-models/3d933b6fd5b447dfbc65d05228bbe902 |
+| Inimigo EUA (alta dificuldade) | Lockheed Martin F-22 "Raptor" | andertan | CC BY 4.0 (conferido na página do Sketchfab em 2026-11-02) | https://sketchfab.com/3d-models/7e7b3c372e374dda98e70208d09cfdcf |
+| Ala do F-39E (leve) | Saab Jas 39 Gripen | urgo | CC BY 4.0 (conferido na página do Sketchfab em 2026-11-02) | https://sketchfab.com/3d-models/3c90b2acdf204599b45bf91a09740be9 |
+| Navio (fragata Tamandaré) | Tamandare Frigate | ammar_ssr (re-upload: a descrição diz "not mine") | CC BY 4.0 (não confiável: autoria original desconhecida; só uso pessoal, não distribuir nem comercializar). Versão em uso: helicóptero removido (obra derivada, 966 mil polígonos) | https://sketchfab.com/3d-models/8443b68bc2a847b0a5fcd039ba24ef7f |
 | Foto cabine KC-390 | KC-390 cockpit.png | Fernando Xavier | CC BY-SA 4.0 (obras derivadas também em BY-SA) | https://commons.wikimedia.org/wiki/File:KC-390_cockpit.png |

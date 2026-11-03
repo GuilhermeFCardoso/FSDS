@@ -87,7 +87,7 @@ namespace FABSim.Core
 
     public sealed class FbwDef
     {
-        public double NzMax, NzMin, AlphaLim, PMax, Lq, Lp, Lr;
+        public double NzMax, NzMin, AlphaLim, PMax, Lq, Lp, Lr, NzFeedback, RollGLimit;
     }
 
     public sealed class AircraftDef
@@ -375,9 +375,10 @@ namespace FABSim.Core
                 double nzUp = ctl.StallProt ? Math.Max(1, Math.Min(F.NzMax, qS * (ac.CL0 + ac.DCLf * f + ac.CLa * kM * F.AlphaLim) / (m * G))) : F.NzMax;
                 double nzDn = ctl.StallProt ? Clamp(qS * (ac.CL0 + ac.DCLf * f - ac.CLa * kM * 0.35) / (m * G), F.NzMin, 1) : F.NzMin;
                 double nzCmd = ctl.Pitch >= 0 ? 1 + ctl.Pitch * (nzUp - 1) : 1 + ctl.Pitch * (1 - nzDn);
-                double qCmd = G * (nzCmd - Math.Cos(eTheta) * Math.Cos(ePhi)) / Vc + p * Math.Tan(beta);
+                double nzErr = s.Contact ? 0 : nzCmd - s.Diag.Nz;
+                double qCmd = G * (nzCmd - Math.Cos(eTheta) * Math.Cos(ePhi) + F.NzFeedback * nzErr) / Vc + p * Math.Tan(beta);
                 deC = Clamp((ac.Iy * F.Lq * (qCmd - q) / (qbEff * ac.S * ac.C) - cm0) / Cmde, -1, 1);
-                double pCmd = ctl.Roll * F.PMax * Clamp(V / 120, 0.3, 1);
+                double pCmd = ctl.Roll * F.PMax * Clamp(V / 120, 0.3, 1) * (1 - F.RollGLimit * Clamp(Math.Abs(s.Diag.Nz - 1) / (F.NzMax - 1), 0, 1));
                 daCmd = Clamp((ac.Ix * F.Lp * (pCmd - p) / (qbEff * ac.S * ac.B) - cl0) / Clda, -1, 1);
                 drC = s.Contact || qbar < 600 ? ctl.Yaw : YawLaw(F.Lr, daCmd);
             }

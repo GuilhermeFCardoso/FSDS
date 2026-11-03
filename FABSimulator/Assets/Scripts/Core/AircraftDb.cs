@@ -22,14 +22,14 @@ namespace FABSim.Core
             Cnb = 0.1, Cnr = -0.25, Cnp = -0.03, Cndr = 0.06, Cnda = -0.005,
             CYb = -0.8, CYdr = 0.25,
             Control = ControlLaw.Fbw,
-            Fbw = new FbwDef { NzMax = 9, NzMin = -3, AlphaLim = 0.45, PMax = 4.0, Lq = 6, Lp = 10, Lr = 4 },
+            Fbw = new FbwDef { NzMax = 9, NzMin = -3, AlphaLim = 0.45, PMax = 4.0, Lq = 6, Lp = 10, Lr = 4, NzFeedback = 1, RollGLimit = 0.6 },
             FlapNotches = new double[] { 0, 1, 2 }, FlapRate = 0.6, GearRate = 0.2,
-            Engine = new EngineDef { Type = EngineType.Jet, Afterburner = true, T0 = 58000, TAB = 97900, Sx = 0.8, Km = 0.45, Idle = 0.3, Fi = 0.04, Tau = 1.2, Tsfc = 22e-6, TsfcAB = 57e-6, Dz = 0, NLabel = "N2" },
+            Engine = new EngineDef { Type = EngineType.Jet, Afterburner = true, T0 = 58000, TAB = 97900, Sx = 0.8, Km = 0.35, Idle = 0.3, Fi = 0.04, Tau = 1.2, Tsfc = 22e-6, TsfcAB = 57e-6, Dz = 0, NLabel = "N2" },
             Gear = new[] { Wheel(3.9, 0, 1.5, 0.2, 45), Wheel(-0.9, -1.15, 1.5, 0.4, 0, true), Wheel(-0.9, 1.15, 1.5, 0.4, 0, true) },
             Crash = new[] { new CrashPoint(-5.9, 0, 0.3, true), new CrashPoint(-1, -4.3, 0.4), new CrashPoint(-1, 4.3, 0.4), new CrashPoint(7, 0, 0.5), new CrashPoint(-3, 0, 0.5) },
             GearDefl = 0.18, GearStroke = 0.4, GearLoadLimit = 5, CgHeight = 1.32,
             NzLimitLow = -3, NzLimitHigh = 9,
-            Wave = new WaveDef { Sup = true, Crit = 0.9, Peak = 0.02, Post = 0.012 },
+            Wave = new WaveDef { Sup = true, Crit = 0.9, Peak = 0.02, Post = 0.018 },
             Stall = new StallDef { W = 0.05, On = 0.2, Off = 0.3, Cm0 = 0.1, Cm1 = 0.6, Rot = 0.6, Cd = 1.2 },
         };
 
@@ -38,7 +38,7 @@ namespace FABSim.Core
             Id = "a29", Name = "A-29 Super Tucano",
             Mass0 = 3300, FuelMax = 600, S = 19.4, B = 11.14, C = 1.84, Ix = 4800, Iy = 8200, Iz = 11300,
             CL0 = 0.28, CLa = 4.8, AStall = 0.28,
-            CD0 = 0.027, K = 0.058, DCLf = 0.7, DCDf = 0.07, DCmf = -0.07, DAsf = -0.02,
+            CD0 = 0.016, K = 0.058, DCLf = 0.7, DCDf = 0.07, DCmf = -0.07, DAsf = -0.02,
             DCDgear = 0.02, DCDsb = 0.03, DCLsb = 0,
             Cm0 = 0.05, Cma = -1.0, Cmq = -14, Cmde = 0.6,
             Clb = -0.09, Clp = -0.5, Clr = 0.1, Clda = 0.12, Cldr = 0.008,
@@ -46,7 +46,7 @@ namespace FABSim.Core
             CYb = -0.33, CYdr = 0.16,
             Wave = new WaveDef { Mdd = 0.62, K = 25 },
             FlapNotches = new double[] { 0, 20, 40 }, FlapRate = 2, GearRate = 0.3,
-            Engine = new EngineDef { Type = EngineType.Piston, Turbo = true, P = 1193e3, Eta = 0.8, V0 = 65, Bsfc = 0.3, Tau = 1.5, Dz = -0.1, NLabel = "RPM" },
+            Engine = new EngineDef { Type = EngineType.Piston, Turbo = true, P = 1193e3, Eta = 0.92, V0 = 45, Bsfc = 0.3, Tau = 1.5, Dz = -0.1, NLabel = "RPM" },
             Gear = new[] { Wheel(2.6, 0, 1.35, 0.1, 25), Wheel(-0.3, -1.3, 1.35, 0.45, 0, true), Wheel(-0.3, 1.3, 1.35, 0.45, 0, true) },
             Crash = new[] { new CrashPoint(4.4, 0, 0.1), new CrashPoint(-6.3, 0, 0.4, true), new CrashPoint(0, -5.5, 0.55), new CrashPoint(0, 5.5, 0.55), new CrashPoint(0.5, 0, -0.95) },
             GearDefl = 0.14, GearStroke = 0.3, GearLoadLimit = 5, CgHeight = 1.2,
@@ -65,7 +65,7 @@ namespace FABSim.Core
             Clb = -0.12, Clp = -0.45, Clr = 0.12, Clda = 0.1, Cldr = 0.012,
             Cnb = 0.12, Cnr = -0.15, Cnp = -0.05, Cndr = 0.06, Cnda = -0.004,
             CYb = -0.7, CYdr = 0.2,
-            Wave = new WaveDef { Mdd = 0.76, K = 20 },
+            Wave = new WaveDef { Mdd = 0.72, K = 70 },
             FlapNotches = new double[] { 0, 10, 20, 35 }, FlapRate = 1.5, GearRate = 0.12,
             Engine = new EngineDef { Type = EngineType.Jet, T0 = 278700, Sx = 0.78, Km = -0.5, Idle = 0.22, Fi = 0.05, Tau = 2.8, Tsfc = 17e-6, Dz = 1.0, NLabel = "N1" },
             Gear = new[] { Wheel(13.2, 0, 3.2, 0.08, 55), Wheel(-1.2, -2.4, 3.2, 0.46, 0, true), Wheel(-1.2, 2.4, 3.2, 0.46, 0, true) },
@@ -74,6 +74,18 @@ namespace FABSim.Core
             NzLimitLow = -1, NzLimitHigh = 2.5, VRef = 70, GainE = 0.75, GainA = 0.7, GainR = 0.6,
             Stall = new StallDef { On = 0.3, Off = 0.7, Cm0 = 0.15, Cm1 = 2.2, Rot = 1.1, Bias = 0.02, Warn = 0.05 },
         };
+
+        public static AircraftDef Get(string id) => id == "a29" ? A29() : id == "kc390" ? KC390() : F39E();
+
+        public static Loadout DefaultLoadout(string id)
+        {
+            switch (id)
+            {
+                case "a29": return new Loadout { Gun = new GunDef { Name = "2 x FN .50 (12,7 mm)", Rounds = 400, Rate = 40, V = 890, Dmg = 3, Spread = 0.0045 }, Aam = 0, Bomb = 4, Rkt = 14, Flares = 30, Sight = new SightDef { Name = "Mira CCIP", Range = 6000 } };
+                case "kc390": return new Loadout { Gun = new GunDef { Name = "Sem armamento", Rounds = 0, Rate = 1, V = 1, Dmg = 0, Spread = 0 }, Flares = 60, Sight = new SightDef { Name = "Sem mira", Range = 0 } };
+                default: return new Loadout { Gun = new GunDef { Name = "Mauser BK-27 27 mm", Rounds = 120, Rate = 28, V = 1025, Dmg = 14, Spread = 0.003 }, Aam = 4, Bomb = 4, Rkt = 12, Flares = 40, Sight = new SightDef { Name = "Mira digital CCIP + CCRP e HUD completo", Ccrp = true, Full = true, Range = 20000 } };
+            }
+        }
 
         public static AircraftInfo Info(string id)
         {
