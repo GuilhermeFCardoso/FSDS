@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FABSim.Core;
 using UnityEngine.InputSystem;
 
@@ -11,9 +12,50 @@ namespace FABSim.Game
         public bool Invert;
 
         public bool ToggleCamera, ToggleMenu, ToggleMap, Restart, NextWeapon, PrevWeapon, Fire, FireHeld, Gun, Flare, NextTarget;
-        public bool ToggleProbe, ToggleAp, ToggleLight, ToggleArm, Jettison, NextPage, LookZoomed;
+        public bool ToggleProbe, ToggleAp, ToggleLight, ToggleArm, Jettison, NextPage, LookZoomed, ToggleEngine;
         public double ZoomAxis;
         bool modUsado;
+
+        // Menu do A: so os comandos que o aviao tem. Armamento fica fora, em View + X e View + A.
+        public enum Cmd { Trem, Aerofreio, Estacionamento, Compensador, Piloto, Sonda, Farol, Motor, Tela }
+        public readonly List<Cmd> MenuItens = new List<Cmd>();
+        public bool MenuAberto, Bloqueado;
+        public int MenuIdx;
+
+        public static string Nome(Cmd c) => c switch
+        {
+            Cmd.Trem => "Trem de pouso", Cmd.Aerofreio => "Aerofreio", Cmd.Estacionamento => "Freio de estacionamento",
+            Cmd.Compensador => "Compensador", Cmd.Piloto => "Piloto automático", Cmd.Sonda => "Sonda de reabastecimento",
+            Cmd.Farol => "Farol", Cmd.Motor => "Motor", _ => "Página da tela",
+        };
+
+        void MontarMenu(AircraftDef ac)
+        {
+            MenuItens.Clear();
+            if (!ac.GearFixed) MenuItens.Add(Cmd.Trem);
+            MenuItens.Add(Cmd.Aerofreio);
+            MenuItens.Add(Cmd.Estacionamento);
+            MenuItens.Add(Cmd.Compensador);
+            if (ac.Id != "a29") { MenuItens.Add(Cmd.Piloto); MenuItens.Add(Cmd.Sonda); }
+            MenuItens.Add(Cmd.Farol);
+            MenuItens.Add(Cmd.Motor);
+            MenuItens.Add(Cmd.Tela);
+        }
+
+        void Acionar(Cmd cmd, Controls c)
+        {
+            switch (cmd)
+            {
+                case Cmd.Trem: c.GearDown = !c.GearDown; break;
+                case Cmd.Aerofreio: speedbrakeOn = !speedbrakeOn; break;
+                case Cmd.Estacionamento: c.Parking = !c.Parking; break;
+                case Cmd.Piloto: ToggleAp = true; break;
+                case Cmd.Sonda: ToggleProbe = true; break;
+                case Cmd.Farol: ToggleLight = true; break;
+                case Cmd.Motor: ToggleEngine = true; break;
+                case Cmd.Tela: NextPage = true; break;
+            }
+        }
         public double LookYaw, LookPitch;
         public bool ThrottleLocked => hold;
 
@@ -36,7 +78,7 @@ namespace FABSim.Game
         public void Read(Controls c, FlightState s, AircraftDef ac, double dt)
         {
             ToggleCamera = ToggleMenu = ToggleMap = Restart = NextWeapon = PrevWeapon = Fire = Flare = NextTarget = false;
-            ToggleProbe = ToggleAp = ToggleLight = ToggleArm = Jettison = NextPage = false;
+            ToggleProbe = ToggleAp = ToggleLight = ToggleArm = Jettison = NextPage = ToggleEngine = false;
             LookYaw = LookPitch = ZoomAxis = 0;
             var mouse = Mouse.current;
             if (mouse != null && mouse.scroll.y.ReadValue() != 0) ZoomAxis = Math.Sign(mouse.scroll.y.ReadValue()) * 8;
@@ -50,7 +92,7 @@ namespace FABSim.Game
             kbYaw = Ramp(kbYaw, kb == null ? 0 : K(kb.dKey.isPressed) - K(kb.aKey.isPressed), dt, 0.8, 2.4, 5);
             double pitch = kbPitch, roll = kbRoll, yaw = kbYaw;
             double throttleD = 0, trimD = 0, brake = 0;
-            bool gun = false, fireHeld = false;
+            bool gun = false, fireHeld = false, reverse = false;
 
             if (kb != null)
             {
@@ -71,6 +113,8 @@ namespace FABSim.Game
                 if (kb.bKey.wasPressedThisFrame) speedbrakeOn = !speedbrakeOn;
                 if (kb.zKey.wasPressedThisFrame) c.FlapIdx = Math.Max(0, c.FlapIdx - 1);
                 if (kb.xKey.wasPressedThisFrame) c.FlapIdx = Math.Min(ac.FlapNotches.Length - 1, c.FlapIdx + 1);
+                ToggleEngine |= kb.iKey.wasPressedThisFrame;
+                reverse = kb.yKey.isPressed;
                 ToggleProbe |= kb.jKey.wasPressedThisFrame;
                 ToggleAp |= kb.uKey.wasPressedThisFrame;
                 ToggleLight |= kb.hKey.wasPressedThisFrame;
@@ -109,17 +153,27 @@ namespace FABSim.Game
                     fireHeld |= pad.buttonEast.isPressed;
                     Fire |= pad.buttonEast.wasPressedThisFrame;
                 }
-                else brake = Math.Max(brake, pad.buttonEast.ReadValue());
+                else
+                {
+                    brake = Math.Max(brake, pad.buttonEast.ReadValue());
+                    // No chao o gatilho esquerdo e o reverso, e a profundidade dele comanda a potencia.
+                    double lt = pad.leftTrigger.ReadValue();
+                    if (ac.Engine.Reverser > 0 && lt > 0.1) { reverse = true; thr = Math.Max(thr, lt); }
+                }
                 // View segurado funciona como modificador; um toque curto continua sendo o aerofreio.
                 bool mod = pad.selectButton.isPressed;
+                MenuAberto = pad.buttonSouth.isPressed && !mod && !Bloqueado;
+                if (MenuAberto)
+                {
+                    if (MenuItens.Count == 0) MontarMenu(ac);
+                    if (pad.dpad.down.wasPressedThisFrame) MenuIdx = (MenuIdx + 1) % MenuItens.Count;
+                    if (pad.dpad.up.wasPressedThisFrame) MenuIdx = (MenuIdx + MenuItens.Count - 1) % MenuItens.Count;
+                    if (MenuItens[MenuIdx] == Cmd.Compensador) trimD = K(pad.dpad.right.isPressed) - K(pad.dpad.left.isPressed);
+                    else if (pad.dpad.right.wasPressedThisFrame) Acionar(MenuItens[MenuIdx], c);
+                }
                 if (pad.selectButton.wasPressedThisFrame) modUsado = false;
                 if (mod)
                 {
-                    double trimPad = K(pad.dpad.up.isPressed) - K(pad.dpad.down.isPressed);
-                    if (trimPad != 0) { trimD = trimPad; modUsado = true; }
-                    if (pad.dpad.left.wasPressedThisFrame) { ToggleProbe = true; modUsado = true; }
-                    if (pad.dpad.right.wasPressedThisFrame) { ToggleLight = true; modUsado = true; }
-                    if (pad.buttonNorth.wasPressedThisFrame) { ToggleAp = true; modUsado = true; }
                     if (pad.buttonWest.wasPressedThisFrame) { ToggleArm = true; modUsado = true; }
                     if (pad.buttonSouth.wasPressedThisFrame) { Jettison = true; modUsado = true; }
                 }
@@ -127,11 +181,13 @@ namespace FABSim.Game
                 {
                     Flare |= pad.buttonWest.wasPressedThisFrame;
                     NextTarget |= pad.buttonNorth.wasPressedThisFrame;
-                    NextWeapon |= pad.dpad.down.wasPressedThisFrame;
-                    PrevWeapon |= pad.dpad.up.wasPressedThisFrame;
-                    ToggleMap |= pad.dpad.left.wasPressedThisFrame;
-                    if (pad.buttonSouth.wasPressedThisFrame) c.GearDown = !c.GearDown;
-                    if (pad.dpad.right.wasPressedThisFrame) c.FlapIdx = (c.FlapIdx + 1) % ac.FlapNotches.Length;
+                    if (!MenuAberto)
+                    {
+                        NextWeapon |= pad.dpad.down.wasPressedThisFrame;
+                        PrevWeapon |= pad.dpad.up.wasPressedThisFrame;
+                        ToggleMap |= pad.dpad.left.wasPressedThisFrame;
+                        if (pad.dpad.right.wasPressedThisFrame) c.FlapIdx = (c.FlapIdx + 1) % ac.FlapNotches.Length;
+                    }
                 }
                 if (pad.selectButton.wasReleasedThisFrame && !modUsado) speedbrakeOn = !speedbrakeOn;
                 ToggleCamera |= pad.leftStickButton.wasPressedThisFrame;
@@ -150,6 +206,7 @@ namespace FABSim.Game
             if (c.Parking && thr > 0.25) c.Parking = false;
             c.Throttle = thr;
             c.Brake = brake;
+            c.Reverse = reverse && !air && ac.Engine.Reverser > 0;
             c.Speedbrake = speedbrakeOn ? 1 : 0;
             c.Trim = Clamp(c.Trim + trimD * 0.15 * dt, -1, 1);
         }

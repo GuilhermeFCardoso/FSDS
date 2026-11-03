@@ -55,7 +55,7 @@ namespace FABSim.Core
         public bool Afterburner, Turbo;
         public double T0, TAB, Sx, Km, Idle, Fi, Tsfc, TsfcAB;
         public double P, Eta, V0, Bsfc;
-        public double Tau, Dz;
+        public double Tau, Dz, Reverser;
         public string NLabel = "N1";
     }
 
@@ -136,7 +136,7 @@ namespace FABSim.Core
     public sealed class Controls
     {
         public double Pitch, Roll, Yaw, Throttle, Trim, Brake, Speedbrake;
-        public bool Parking, GearDown = true, Assist, StallProt;
+        public bool Parking, GearDown = true, Assist, StallProt, EngineCut, Reverse;
         public int FlapIdx;
     }
 
@@ -417,7 +417,7 @@ namespace FABSim.Core
             double Fx = -D * ca + L * sa, Fy = Y, Fz = -D * sa - L * ca;
 
             var e = ac.Engine;
-            bool hasFuel = s.Fuel > 0;
+            bool hasFuel = s.Fuel > 0 && !ctl.EngineCut;
             double nCmd, abCmd = 0;
             if (e.Type == EngineType.Piston) nCmd = hasFuel ? ctl.Throttle : 0;
             else
@@ -431,7 +431,8 @@ namespace FABSim.Core
             s.Thrust = thT;
             s.Flow = thFlow;
             s.Fuel = Math.Max(0, s.Fuel - thFlow * dt);
-            Fx += thT;
+            // Reverso so com peso nas rodas, como nos avioes reais.
+            Fx += ctl.Reverse && s.Contact ? -thT * e.Reverser : thT;
 
             double Mx = qS * ac.B * (cl0 + Clda * s.Da + ac.Cldr * s.Dr);
             double My = qS * ac.C * (cm0 + Cmde * (1 - st.Wake * sep) * s.De + 0.07 * buf * s.Bn.Y) + thT * e.Dz;

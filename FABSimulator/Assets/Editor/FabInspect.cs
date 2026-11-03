@@ -89,7 +89,7 @@ public static class FabInspect
                 (full, new Vector3(-0.6f, 0.55f, -0.8f), false),
                 (up, new Vector3(0.6f, -0.45f, 0.6f), false),
                 (neutral, Vector3.forward, true),
-                (up, new Vector3(0.45f, -0.88f, -0.15f), false),
+                (up, new Vector3(0.55f, -0.75f, 0.35f), false),
             };
             for (int c = 0; c < shots.Length; c++)
             {
@@ -101,8 +101,8 @@ public static class FabInspect
                 cam.farClipPlane = 4000;
                 cam.fieldOfView = 68;
                 cam.orthographicSize = radius;
-                cam.orthographicSize = c == 5 ? radius * 0.28f : radius;
-                cam.transform.position = shot.eye ? fit.EyeLocal : (c == 5 ? new Vector3(key == "KC390" ? 2 : 0, 1, key == "KC390" ? -4 : 0) : Vector3.zero) + dd * radius * 8;
+                cam.orthographicSize = c == 5 ? radius * 0.16f : radius;
+                cam.transform.position = shot.eye ? fit.EyeLocal : (c == 5 ? new Vector3(0, 1, key == "KC390" ? 14 : 0) : Vector3.zero) + dd * radius * 8;
                 cam.transform.rotation = Quaternion.LookRotation(shot.eye ? dd : -dd, Vector3.up);
                 sun.transform.rotation = Quaternion.LookRotation(shot.eye ? new Vector3(0.3f, -0.7f, 0.4f) : (-dd + Vector3.down * 0.6f).normalized);
                 for (int k = 0; k < 3; k++) cam.Render();

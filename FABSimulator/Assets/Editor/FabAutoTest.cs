@@ -6,8 +6,10 @@ using FABSim.Game;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
-// FAB_AUTOTEST: 1 = decolagem e combate, 2 = miras contra alvos no solo, 3 = saguao ate o voo, 4 = reabastecimento, 5 = cabine e mapa, 6 = rapto noturno
+// FAB_AUTOTEST: 1 = decolagem e combate, 2 = miras contra alvos no solo, 3 = saguao ate o voo, 4 = reabastecimento, 5 = cabine e mapa, 6 = rapto noturno, 7 = reverso e corte de motor, 8 = menu do A no D-pad
 [InitializeOnLoad]
 public static class FabAutoTest
 {
@@ -99,9 +101,77 @@ public static class FabAutoTest
         if (f == null || !f.Ready) return;
         var k = f.GetComponent<Combate>();
         if (f.S.Crashed.Length > 0 && !k.Sess.Invuln) { W(State(f)); Tela("98_falha"); Finish(3, "queda: " + f.S.Crashed); return; }
-        if (Mode == "6") TickRapto(f, k, now);
+        if (Mode == "8") TickMenu(f, k, now);
+        else if (Mode == "7") TickMotor(f, now);
+        else if (Mode == "6") TickRapto(f, k, now);
         else if (Mode == "4" || Mode == "5") TickCabine(f, k, now);
         else if (Mode == "2") TickSights(f, k, now); else TickCombat(f, k, now);
+    }
+
+    static Gamepad padTeste;
+
+    static void Botoes(params GamepadButton[] b)
+    {
+        var st = new GamepadState();
+        foreach (var x in b) st = st.WithButton(x);
+        InputSystem.QueueStateEvent(padTeste, st);
+    }
+
+    static void TickMenu(FlightController f, Combate k, double now)
+    {
+        double dt = now - phaseT;
+        var s = f.S;
+        var inp = f.Input;
+        void Next() { phase++; phaseT = now; }
+        const double P = 0.4;
+        Level(f);
+        switch (phase)
+        {
+            case 0:
+                f.ThrottleOverride = 0.6;
+                f.Teleport(s.Lat, s.Lon, s.Z + 1500, s.Diag.Hdg / 57.29578, 150);
+                f.Ctl.GearDown = true;
+                padTeste = InputSystem.AddDevice<Gamepad>();
+                Next();
+                break;
+            case 1: if (dt > 1) { W($"sem A: menu {inp.MenuAberto} flap {f.Ctl.FlapIdx} arma {k.Sess.Sel}"); Botoes(GamepadButton.DpadRight); Next(); } break;
+            case 2: if (dt > P) { W($"D-pad direita sem A: flap {f.Ctl.FlapIdx} menu {inp.MenuAberto}"); Botoes(); Next(); } break;
+            case 3: if (dt > P) { Botoes(GamepadButton.DpadDown); Next(); } break;
+            case 4: if (dt > P) { W($"D-pad baixo sem A: arma {k.Sess.Sel} idx {inp.MenuIdx}"); Botoes(); Next(); } break;
+            case 5: if (dt > P) { Botoes(GamepadButton.South); Next(); } break;
+            case 6: if (dt > P) { W($"A segurado: menu {inp.MenuAberto} itens {string.Join(",", inp.MenuItens)} idx {inp.MenuIdx} trem pedido {f.Ctl.GearDown}"); Tela("m0_menu"); Next(); } break;
+            case 7: if (dt > P) { Botoes(GamepadButton.South, GamepadButton.DpadRight); Next(); } break;
+            case 8: if (dt > P) { W($"A + direita em Trem: trem pedido {f.Ctl.GearDown} flap {f.Ctl.FlapIdx}"); Botoes(GamepadButton.South); Next(); } break;
+            case 9: if (dt > P) { Botoes(GamepadButton.South, GamepadButton.DpadDown); Next(); } break;
+            case 10: if (dt > P) { Botoes(GamepadButton.South); W($"A + baixo: idx {inp.MenuIdx} arma {k.Sess.Sel}"); Next(); } break;
+            case 11: if (dt > P) { Botoes(GamepadButton.South, GamepadButton.DpadRight); Next(); } break;
+            case 12: if (dt > P) { W($"A + direita em Aerofreio: aerofreio {f.Ctl.Speedbrake}"); Tela("m1_menu_acionado"); Botoes(GamepadButton.South); Next(); } break;
+            case 13: if (dt > P) { Botoes(); Next(); } break;
+            case 14: if (dt > P) { W($"A solto: menu {inp.MenuAberto} trem pedido {f.Ctl.GearDown}"); InputSystem.RemoveDevice(padTeste); Finish(0, "menu ok"); } break;
+        }
+    }
+
+    static double v0;
+
+    static void TickMotor(FlightController f, double now)
+    {
+        double dt = now - phaseT;
+        var s = f.S;
+        void Next() { phase++; phaseT = now; }
+        string Motor() => $"N {s.N:0.00} empuxo {s.Thrust:0} fluxo {s.Flow * 3600:0} kg/h IAS {s.Diag.Ias * 1.944:0} Z {s.Z:0} corte {f.Ctl.EngineCut}";
+        if (phase > 5) Level(f);
+        switch (phase)
+        {
+            case 0: W("pronto: " + State(f)); f.ThrottleOverride = 1; Next(); break;
+            case 1: if (s.Diag.Gs > 35 || dt > 40) { f.ThrottleOverride = 0; v0 = s.Diag.Gs; Next(); } break;
+            case 2: if (dt > 3) { W($"sem reverso: desacelera {(v0 - s.Diag.Gs) / dt:0.00} m/s2 a partir de {v0:0} m/s"); f.ThrottleOverride = 1; Next(); } break;
+            case 3: if (s.Diag.Gs > 35 || dt > 40) { f.ReverseOverride = true; v0 = s.Diag.Gs; Next(); } break;
+            case 4: if (dt > 3) { W($"com reverso a plena potencia: desacelera {(v0 - s.Diag.Gs) / dt:0.00} m/s2 a partir de {v0:0} m/s, aplicado {f.Ctl.Reverse}"); f.ReverseOverride = false; f.ThrottleOverride = 0.6; Next(); } break;
+            case 5: f.Teleport(s.Lat, s.Lon, s.Z + 1500, s.Diag.Hdg / 57.29578, 150); Next(); break;
+            case 6: if (dt > 5) { W("motor ligado: " + Motor()); f.Ctl.EngineCut = true; Next(); } break;
+            case 7: if (dt > 8) { W("motor cortado: " + Motor()); f.Ctl.EngineCut = false; Next(); } break;
+            case 8: if (dt > 8) { W("apos partida: " + Motor()); Finish(0, "motor ok"); } break;
+        }
     }
 
     static void TickRapto(FlightController f, Combate k, double now)

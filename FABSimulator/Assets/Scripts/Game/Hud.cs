@@ -171,6 +171,7 @@ namespace FABSim.Game
                     DrawNav();
                 }
             }
+            if (F.Input.MenuAberto && !mapa.Aberto) DrawMenuComandos();
             DrawRadio();
             UpdateOverlay();
             hurt.style.backgroundColor = new Color(0.8f, 0.05f, 0, Mathf.Clamp01(K.HurtFlash) * 0.35f);
@@ -463,7 +464,7 @@ namespace FABSim.Game
             Txt($"FLAP {F.Ctl.FlapIdx}", bl + new Vector2(135, 46), 15, GD, TextAnchor.MiddleLeft);
             if (s.Sb > 0.05) Txt("AEROFREIO", bl + new Vector2(215, 46), 15, AM, TextAnchor.MiddleLeft);
             if (F.Ctl.Parking) Txt("FREIO ESTAC.", bl + new Vector2(0, 68), 15, AM, TextAnchor.MiddleLeft);
-            string sistemas = (F.AutoPilot ? "A/P  " : "") + (F.ProbeOut ? "SONDA  " : "") + (F.LandingLight ? "FAROL  " : "") + (F.TemArmamento && !F.MasterArm ? "ARM SEGURO" : "");
+            string sistemas = (F.Ctl.EngineCut ? "MOTOR CORTADO  " : "") + (F.Ctl.Reverse ? "REVERSO  " : "") + (F.AutoPilot ? "A/P  " : "") + (F.ProbeOut ? "SONDA  " : "") + (F.LandingLight ? "FAROL  " : "") + (F.TemArmamento && !F.MasterArm ? "ARM SEGURO" : "");
             if (sistemas.Length > 0) Txt(sistemas, bl + new Vector2(130, 68), 15, G, TextAnchor.MiddleLeft);
             if (K.Ativo != null && sess.Wave > 0)
                 Txt($"{K.Ativo.nome}: contatos a {K.AmeacaKm:0} km", bl + new Vector2(0, -26), 16, K.AmeacaKm < K.Ativo.raio_de_seguranca_km + 20 ? RD : AM, TextAnchor.MiddleLeft);
@@ -520,6 +521,43 @@ namespace FABSim.Game
             var home = Plot(s.Home);
             if (!Inside(home)) { var d = (home - c).normalized; home = c + d * (R - 7); }
             Ring(home, 5, BL, 1.6f);
+        }
+
+        string EstadoComando(FabInput.Cmd c)
+        {
+            var s = F.S;
+            switch (c)
+            {
+                case FabInput.Cmd.Trem: return s.Gear > 0.99 ? "BAIXO" : s.Gear < 0.01 ? "RECOLHIDO" : "EM MOVIMENTO";
+                case FabInput.Cmd.Aerofreio: return s.Sb > 0.05 ? "ABERTO" : "FECHADO";
+                case FabInput.Cmd.Estacionamento: return F.Ctl.Parking ? "LIGADO" : "SOLTO";
+                case FabInput.Cmd.Compensador: return $"{F.Ctl.Trim * 100:+0;-0;0}%";
+                case FabInput.Cmd.Piloto: return F.AutoPilot ? "LIGADO" : "DESLIGADO";
+                case FabInput.Cmd.Sonda: return F.ProbeOut ? "ESTENDIDA" : "RECOLHIDA";
+                case FabInput.Cmd.Farol: return F.LandingLight ? "LIGADO" : "DESLIGADO";
+                case FabInput.Cmd.Motor: return F.Ctl.EngineCut ? "CORTADO" : "LIGADO";
+                default: return "";
+            }
+        }
+
+        void DrawMenuComandos()
+        {
+            var itens = F.Input.MenuItens;
+            if (itens.Count == 0) return;
+            const float Largura = 430, Linha = 34;
+            var p = new Vector2(W - Largura - 24, H * 0.22f);
+            Painel(p, new Vector2(Largura, 56 + itens.Count * Linha + 34));
+            Txt("COMANDOS DA AERONAVE", p + new Vector2(16, 28), 17, Color.white, TextAnchor.MiddleLeft);
+            for (int i = 0; i < itens.Count; i++)
+            {
+                bool sel = i == F.Input.MenuIdx;
+                var y = p.y + 56 + i * Linha + Linha / 2;
+                if (sel) blocos.Add((new Vector2(p.x + 6, y - Linha / 2 + 2), new Vector2(Largura - 12, Linha - 4), new Color(0.35f, 1f, 0.55f, 0.22f)));
+                Txt(FabInput.Nome(itens[i]), new Vector2(p.x + 16, y), 16, sel ? Color.white : new Color(1, 1, 1, 0.75f), TextAnchor.MiddleLeft);
+                Txt(EstadoComando(itens[i]), new Vector2(p.x + Largura - 16, y), 15, G, TextAnchor.MiddleRight);
+            }
+            string ajuda = itens[F.Input.MenuIdx] == FabInput.Cmd.Compensador ? "↑↓ escolhe   ← → ajusta" : "↑↓ escolhe   → aciona";
+            Txt(ajuda, new Vector2(p.x + 16, p.y + 56 + itens.Count * Linha + 16), 15, AM, TextAnchor.MiddleLeft);
         }
 
         void DrawNav()

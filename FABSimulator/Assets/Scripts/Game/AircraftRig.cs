@@ -109,7 +109,21 @@ namespace FABSim.Game
             Surface(Island("KC390.014", 1, -0.3f, 0.3f, 4.6f, 9.9f, 16.9f, 22.4f), 'y', (s, _) => Rud(s), Right);
             Slide(Nodes("KC3902", "KC3902.001", "KC3902.002"), Vector3.up * 1.6f, Up);
             Slide(Nodes("KC3903", "KC3902.003", "KC3902.004"), Vector3.up * 1.6f, Up);
-            Swing(Nodes("KC3901"), new Vector3(0.5f, 1, 0.5f), Right, Down, _ => Fwd, s => Up(s) * 88);
+            // A perna dianteira gira no munhao, numa malha separada das rodas, e entra no alojamento a frente.
+            var munhao = Island("KC390.001", 1, -0.62f, 0.63f, 0.92f, 1.17f, -6.98f, -6.73f);
+            if (munhao.Count > 0)
+            {
+                var pivoNariz = BoundsOf(Points(munhao)).center;
+                munhao.AddRange(Island("KC390.001", 1, -0.62f, 0.63f, 0.05f, 1.32f, -7.62f, -6.33f));
+                munhao.AddRange(Nodes("KC3901"));
+                Add(munhao, pivoNariz, Right, Down, Fwd, s => Up(s) * 100);
+            }
+            foreach (var sx in new[] { 1, -1 })
+            {
+                var porta = Island("KC390", sx, 0.55f, 0.94f, -0.03f, 0.59f, -7.48f, -6.22f);
+                porta.AddRange(Island("KC390.013", sx, 0.55f, 0.94f, -0.03f, 0.59f, -7.48f, -6.22f));
+                Swing(porta, new Vector3(-1, 1, 0.5f), Fwd, Down, side => Right * -side, s => Up(s) * 118);
+            }
             // Pedaco da foto do painel que ficaria por cima da tela central.
             foreach (var t in Island("KC390.007", 1, -0.38f, -0.04f, 2.62f, 2.81f, -7.91f, -7.86f)) t.gameObject.SetActive(false);
             Tela(Island("KC390.010", 1, 0.39f, 0.73f, 2.61f, 2.81f, -7.92f, -7.86f), CockpitDisplays.Pfd, false);

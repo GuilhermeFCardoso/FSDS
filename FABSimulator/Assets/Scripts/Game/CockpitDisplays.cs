@@ -359,6 +359,9 @@ namespace FABSim.Game
             Luz(new Vector2(x, y), "ESTOL", d.StallWarn, Vermelho);
             Luz(new Vector2(x + dx, y), "G", d.Nz > ac.NzLimitHigh * 0.9, Vermelho);
             Txt($"Massa {d.Mass:0} kg", new Vector2(r.xMax - 12, y + 18), 19, Color.white, TextAnchor.MiddleRight);
+            y += 44;
+            Luz(new Vector2(x, y), "MOTOR CORT", F.Ctl.EngineCut, Vermelho);
+            Luz(new Vector2(x + dx, y), "REVERSO", F.Ctl.Reverse, Ambar);
         }
 
         void DrawSms(Rect r)

@@ -32,6 +32,7 @@ namespace FABSim.Game
         public bool Paused { get; set; }
         public double Fps => smoothFps;
         public double? PitchOverride, ThrottleOverride;
+        public bool ReverseOverride;
         public void SetCockpit(bool on) { Cockpit = on; ApplyPose(); LateUpdate(); }
         public bool ProbeOut { get; set; }
         public bool AutoPilot { get; private set; }
@@ -145,6 +146,7 @@ namespace FABSim.Game
                 if (aircraftId == "a29") Aviso("O A-29 não tem sonda de reabastecimento");
                 else { ProbeOut = !ProbeOut; Aviso(ProbeOut ? "Sonda estendida" : "Sonda recolhida"); }
             }
+            if (Input.ToggleEngine) { Ctl.EngineCut = !Ctl.EngineCut; Aviso(Ctl.EngineCut ? "Motor cortado" : "Partida do motor"); }
             if (Input.ToggleAp) AlternarPiloto();
             if (Input.ToggleLight)
             {
@@ -257,12 +259,14 @@ namespace FABSim.Game
             double dt = Math.Min(Time.unscaledDeltaTime, 0.5);
             smoothFps += (1 / Math.Max(dt, 1e-3) - smoothFps) * 0.1;
             bool gearCmd = Ctl.GearDown; int flapCmd = Ctl.FlapIdx;
+            Input.Bloqueado = Paused;
             Input.Read(Ctl, S, Ac, dt);
             if (Paused) { Ctl.GearDown = gearCmd; Ctl.FlapIdx = flapCmd; }
             else Comandos();
             Input.LookZoomed = Cockpit && Zoom > 0.03f;
             if (ThrottleOverride.HasValue) { Ctl.Throttle = ThrottleOverride.Value; Ctl.Parking = false; }
             if (PitchOverride.HasValue) Ctl.Pitch = PitchOverride.Value;
+            if (ReverseOverride) Ctl.Reverse = true;
             if (Input.ToggleCamera) Cockpit = !Cockpit;
             if (frame % 240 == 0) BuildNearbyBases();
             UpdateSky();
