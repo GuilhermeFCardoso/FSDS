@@ -7,7 +7,8 @@ namespace FABSim.Game
 {
     // Os modelos nao trazem rig: cada peca movel ganha um pivo, a partir de um no do modelo
     // ou de uma ilha separada da malha. Caixas em coordenadas do arquivo; o Unity inverte o X ao importar.
-    public sealed class TelaDef { public Renderer R; public Mesh Malha; public Vector2[] Uv; public float Aspect; public int Pagina; public bool Cicla; public Vector3 Centro; }
+    public sealed class TelaParte { public Renderer R; public Mesh Malha; public Vector2[] Uv; }
+    public sealed class TelaDef { public readonly List<TelaParte> Partes = new List<TelaParte>(); public float Aspect; public int Pagina; public bool Cicla; public Vector3 Centro; }
 
     public sealed class AircraftRig
     {
@@ -124,11 +125,12 @@ namespace FABSim.Game
                 porta.AddRange(Island("KC390.013", sx, 0.55f, 0.94f, -0.03f, 0.59f, -7.48f, -6.22f));
                 Swing(porta, new Vector3(-1, 1, 0.5f), Fwd, Down, side => Right * -side, s => Up(s) * 118);
             }
-            // Pedaco da foto do painel que ficaria por cima da tela central.
-            foreach (var t in Island("KC390.007", 1, -0.38f, -0.04f, 2.62f, 2.81f, -7.91f, -7.86f)) t.gameObject.SetActive(false);
             Tela(Island("KC390.010", 1, 0.39f, 0.73f, 2.61f, 2.81f, -7.92f, -7.86f), CockpitDisplays.Pfd, false);
             Tela(Island("KC390.010", 1, 0.05f, 0.39f, 2.61f, 2.81f, -7.92f, -7.86f), CockpitDisplays.Nav, false);
-            Tela(Island("KC390.010", 1, -0.38f, -0.04f, 2.61f, 2.81f, -7.92f, -7.86f), CockpitDisplays.Eng, false);
+            // Esta tela vem partida: cada triangulo do quadrado esta numa malha.
+            var motorKc = Island("KC390.010", 1, -0.38f, -0.04f, 2.61f, 2.81f, -7.92f, -7.86f);
+            motorKc.AddRange(Island("KC390.007", 1, -0.38f, -0.04f, 2.62f, 2.81f, -7.91f, -7.86f));
+            Tela(motorKc, CockpitDisplays.Eng, false);
             Tela(Island("KC390.010", 1, -0.72f, -0.38f, 2.61f, 2.81f, -7.92f, -7.86f), CockpitDisplays.Pfd, false);
             Tela(Island("KC390.010", 1, -0.21f, 0.13f, 2.46f, 2.61f, -7.86f, -7.72f), CockpitDisplays.Sms, true);
         }
@@ -211,18 +213,22 @@ namespace FABSim.Game
         void Tela(List<Transform> group, int pagina, bool cicla)
         {
             if (group.Count == 0) return;
-            var t = group[0];
-            var mesh = t.GetComponent<MeshFilter>().sharedMesh;
             var b = BoundsOf(Points(group));
-            var m = root.worldToLocalMatrix * t.localToWorldMatrix;
-            var v = mesh.vertices;
-            var uv = new Vector2[v.Length];
-            for (int i = 0; i < v.Length; i++)
+            var tela = new TelaDef { Aspect = b.size.x / b.size.y, Pagina = pagina, Cicla = cicla, Centro = b.center };
+            foreach (var t in group)
             {
-                var q = m.MultiplyPoint3x4(v[i]);
-                uv[i] = new Vector2(Mathf.Clamp01((q.x - b.min.x) / b.size.x), Mathf.Clamp01((q.y - b.min.y) / b.size.y));
+                var mesh = t.GetComponent<MeshFilter>().sharedMesh;
+                var m = root.worldToLocalMatrix * t.localToWorldMatrix;
+                var v = mesh.vertices;
+                var uv = new Vector2[v.Length];
+                for (int i = 0; i < v.Length; i++)
+                {
+                    var q = m.MultiplyPoint3x4(v[i]);
+                    uv[i] = new Vector2(Mathf.Clamp01((q.x - b.min.x) / b.size.x), Mathf.Clamp01((q.y - b.min.y) / b.size.y));
+                }
+                tela.Partes.Add(new TelaParte { R = t.GetComponent<Renderer>(), Malha = mesh, Uv = uv });
             }
-            Telas.Add(new TelaDef { R = t.GetComponent<Renderer>(), Malha = mesh, Uv = uv, Aspect = b.size.x / b.size.y, Pagina = pagina, Cicla = cicla, Centro = b.center });
+            Telas.Add(tela);
         }
 
         // Para paineis que sao so uma foto no modelo: um quad sobre a tela, voltado para o piloto.
@@ -240,7 +246,9 @@ namespace FABSim.Game
             var r = go.AddComponent<MeshRenderer>();
             r.sharedMaterial = Resources.Load<Material>("FabTela");
             r.enabled = false;
-            Telas.Add(new TelaDef { R = r, Malha = mesh, Uv = new[] { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0) }, Aspect = largura / altura, Pagina = pagina, Cicla = cicla, Centro = centro });
+            var tela = new TelaDef { Aspect = largura / altura, Pagina = pagina, Cicla = cicla, Centro = centro };
+            tela.Partes.Add(new TelaParte { R = r, Malha = mesh, Uv = new[] { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0) } });
+            Telas.Add(tela);
         }
 
         Bounds RootBounds(Renderer r)

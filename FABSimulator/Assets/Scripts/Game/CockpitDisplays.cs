@@ -48,14 +48,17 @@ namespace FABSim.Game
                 var r = new Rect(x, y, w, Altura);
                 x += w + 4;
                 telas.Add(new Tela { R = r, Pagina = d.Pagina, Cicla = d.Cicla });
-                var uv = new Vector2[d.Uv.Length];
-                for (int i = 0; i < uv.Length; i++) uv[i] = new Vector2((r.x + d.Uv[i].x * r.width) / AtlasW, 1 - (r.y + (1 - d.Uv[i].y) * r.height) / AtlasH);
-                d.Malha.uv = uv;
-                var mats = new Material[d.R.sharedMaterials.Length];
-                for (int i = 0; i < mats.Length; i++) mats[i] = mat;
-                d.R.sharedMaterials = mats;
-                d.R.enabled = true;
-                d.R.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                foreach (var parte in d.Partes)
+                {
+                    var uv = new Vector2[parte.Uv.Length];
+                    for (int i = 0; i < uv.Length; i++) uv[i] = new Vector2((r.x + parte.Uv[i].x * r.width) / AtlasW, 1 - (r.y + (1 - parte.Uv[i].y) * r.height) / AtlasH);
+                    parte.Malha.uv = uv;
+                    var mats = new Material[parte.R.sharedMaterials.Length];
+                    for (int i = 0; i < mats.Length; i++) mats[i] = mat;
+                    parte.R.sharedMaterials = mats;
+                    parte.R.enabled = true;
+                    parte.R.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                }
             }
             var ps = ScriptableObject.CreateInstance<PanelSettings>();
             ps.themeStyleSheet = modelo.themeStyleSheet;
